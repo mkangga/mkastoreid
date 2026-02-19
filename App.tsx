@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
@@ -7,6 +8,10 @@ import { ProductsPage } from './pages/ProductsPage';
 import { ContactPage } from './pages/ContactPage';
 import { OrderPage } from './pages/OrderPage';
 import { PaymentPage } from './pages/PaymentPage';
+import { FAQPage } from './pages/FAQPage';
+import { WarrantyPage } from './pages/WarrantyPage';
+import { StatusPage } from './pages/StatusPage';
+import { ResellerPage } from './pages/ResellerPage';
 import { MessageCircle } from 'lucide-react';
 import { config } from './siteConfig';
 
@@ -34,8 +39,12 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/faq" element={<FAQPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/order" element={<OrderPage />} />
+            <Route path="/warranty" element={<WarrantyPage />} />
+            <Route path="/status" element={<StatusPage />} />
+            <Route path="/reseller" element={<ResellerPage />} />
           </Routes>
         </main>
 

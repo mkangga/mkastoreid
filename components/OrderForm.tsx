@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
-import { Send, CreditCard, Clock, User, ShoppingBag } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
-import { config } from '../siteConfig';
+import { Send, CreditCard, Clock, User, ShoppingBag, Info } from 'lucide-react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { config, products } from '../siteConfig';
 
 export const OrderForm: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -12,7 +13,7 @@ export const OrderForm: React.FC = () => {
   const [duration, setDuration] = useState('1 Bulan');
   const [paymentMethod, setPaymentMethod] = useState('QRIS');
 
-  // Update product state jika URL berubah
+  // Update product state jika URL berubah (misal dari klik tombol Beli di card)
   useEffect(() => {
     if (productFromUrl) {
       setProduct(productFromUrl);
@@ -43,21 +44,28 @@ export const OrderForm: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Kolom Kiri */}
             <div className="space-y-6">
-               {/* Produk (Readonly) */}
+               {/* Produk (Dropdown Select) */}
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-2 flex items-center gap-2">
-                  <ShoppingBag size={16} /> Produk Dipilih
+                  <ShoppingBag size={16} /> Pilih Produk
                 </label>
-                <input
-                  type="text"
-                  value={product}
-                  readOnly
-                  placeholder="Pilih produk dari menu Produk"
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-brand-accent font-semibold cursor-not-allowed focus:outline-none"
-                />
-                {!product && (
-                  <p className="text-xs text-red-400 mt-2">*Silakan kembali ke menu Produk untuk memilih.</p>
-                )}
+                <div className="relative">
+                  <select
+                    value={product}
+                    onChange={(e) => setProduct(e.target.value)}
+                    className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white appearance-none focus:outline-none focus:ring-2 focus:ring-brand-primary transition-all cursor-pointer"
+                  >
+                    <option value="" disabled>-- Pilih Layanan Premium --</option>
+                    {products.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name} ({item.priceStart})
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
               </div>
 
               {/* Nama */}
@@ -116,12 +124,23 @@ export const OrderForm: React.FC = () => {
                     <option value="OVO">OVO</option>
                     <option value="GoPay">GoPay</option>
                     <option value="ShopeePay">ShopeePay</option>
-                    <option value="Transfer Bank">Transfer Bank (Semua Bank)</option>
+                    <option value="LinkAja">LinkAja</option>
+                    <option value="Transfer Bank">Transfer Bank (BRI dan SeaBank)</option>
                   </select>
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                   </div>
                 </div>
+                <p className="text-xs text-slate-500 mt-3 flex items-start gap-2 bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                  <Info size={16} className="shrink-0 text-brand-accent mt-0.5" />
+                  <span>
+                    Nomor rekening dan Scan QRIS tersedia di menu{' '}
+                    <Link to="/payment" className="text-brand-accent hover:text-brand-primary font-medium hover:underline">
+                      Bayar
+                    </Link>
+                    . Anda bisa cek dulu sebelum atau sesudah chat admin.
+                  </span>
+                </p>
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+
 export interface Product {
   id: string;
   name: string;
@@ -6,6 +7,7 @@ export interface Product {
   imageUrl: string;
   whatsappMessage: string;
   badge?: string; // e.g. "Best Seller"
+  category: 'Film & Series' | 'Musik' | 'Produktivitas' | 'Lainnya';
 }
 
 export interface Feature {
@@ -15,10 +17,20 @@ export interface Feature {
   icon: 'shield' | 'zap' | 'check';
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 export interface SiteConfig {
   name: string;
   logoUrl?: string; // Optional URL logo
   whatsappNumber: string; // Format: 628...
+  status: {
+    isOnline: boolean; // True = Online, False = Offline
+    onlineMessage: string;
+    offlineMessage: string;
+  };
   hero: {
     title: string;
     subtitle: string;

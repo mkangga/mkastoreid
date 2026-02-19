@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Home, Phone, Grid, CreditCard } from 'lucide-react';
+import { ShoppingBag, Home, Phone, Grid, CreditCard, HelpCircle } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import { config } from '../siteConfig';
 
@@ -31,6 +32,23 @@ export const Header: React.FC = () => {
       isActive ? 'text-brand-accent' : 'text-slate-400 hover:text-slate-200'
     }`;
 
+  // Status Badge Component (Reusable)
+  const StatusBadge = () => (
+    <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border ml-4 transition-all ${
+      config.status.isOnline 
+        ? 'bg-green-500/10 border-green-500/20 text-green-500' 
+        : 'bg-red-500/10 border-red-500/20 text-red-500'
+    }`}>
+      <span className="relative flex h-2 w-2">
+        {config.status.isOnline && (
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        )}
+        <span className={`relative inline-flex rounded-full h-2 w-2 ${config.status.isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
+      </span>
+      {config.status.isOnline ? 'Online' : 'Offline'}
+    </div>
+  );
+
   return (
     <>
       {/* --- TOP HEADER (Logo & Desktop Menu) --- */}
@@ -43,28 +61,33 @@ export const Header: React.FC = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
-            {/* LOGO */}
-            <Link to="/" className="flex items-center gap-2 group z-50">
-              {config.logoUrl ? (
-                <img 
-                  src={config.logoUrl} 
-                  alt={config.name} 
-                  className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
-                />
-              ) : (
-                <>
-                  <div className="bg-brand-primary p-1.5 rounded-lg group-hover:bg-brand-accent transition-colors">
-                    <ShoppingBag className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-xl font-bold text-white tracking-tight">
-                    {config.name}
-                  </span>
-                </>
-              )}
-            </Link>
+            {/* LOGO & STATUS */}
+            <div className="flex items-center">
+              <Link to="/" className="flex items-center gap-2 group z-50">
+                {config.logoUrl ? (
+                  <img 
+                    src={config.logoUrl} 
+                    alt={config.name} 
+                    className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+                  />
+                ) : (
+                  <>
+                    <div className="bg-brand-primary p-1.5 rounded-lg group-hover:bg-brand-accent transition-colors">
+                      <ShoppingBag className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-xl font-bold text-white tracking-tight">
+                      {config.name}
+                    </span>
+                  </>
+                )}
+              </Link>
+              
+              {/* Status Badge (Desktop & Tablet) */}
+              <StatusBadge />
+            </div>
 
             {/* DESKTOP NAVIGATION */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-6">
               <NavLink to="/" className={navLinkClass}>
                 {({ isActive }) => (
                   <>
@@ -81,18 +104,28 @@ export const Header: React.FC = () => {
                   </>
                 )}
               </NavLink>
+              <NavLink to="/reseller" className={navLinkClass}>
+                {({ isActive }) => (
+                  <>
+                    Reseller
+                    <Underline isActive={isActive} />
+                    {/* New Badge */}
+                    <span className="absolute -top-2 -right-3 text-[9px] bg-red-500 text-white px-1 rounded animate-pulse">New</span>
+                  </>
+                )}
+              </NavLink>
               <NavLink to="/payment" className={navLinkClass}>
                 {({ isActive }) => (
                   <>
-                    Pembayaran
+                    Bayar
                     <Underline isActive={isActive} />
                   </>
                 )}
               </NavLink>
-              <NavLink to="/contact" className={navLinkClass}>
+              <NavLink to="/faq" className={navLinkClass}>
                 {({ isActive }) => (
                   <>
-                    Kontak
+                    FAQ
                     <Underline isActive={isActive} />
                   </>
                 )}
@@ -101,18 +134,26 @@ export const Header: React.FC = () => {
               {/* CTA Button */}
               <Link 
                 to="/order" 
-                className="px-5 py-2 bg-slate-800 hover:bg-brand-primary text-white text-sm font-semibold rounded-full transition-all duration-300 border border-slate-700 hover:border-brand-primary hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                className="ml-2 px-5 py-2 bg-slate-800 hover:bg-brand-primary text-white text-sm font-semibold rounded-full transition-all duration-300 border border-slate-700 hover:border-brand-primary hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]"
               >
-                Pesan Sekarang
+                Pesan
               </Link>
             </nav>
+
+            {/* Mobile Status Dot (Visible only on mobile header) */}
+            <div className="md:hidden flex items-center">
+               <span className={`flex h-3 w-3 relative`}>
+                {config.status.isOnline && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>}
+                <span className={`relative inline-flex rounded-full h-3 w-3 ${config.status.isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
+              </span>
+            </div>
           </div>
         </div>
       </header>
 
       {/* --- MOBILE BOTTOM NAVIGATION --- */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 z-50 h-[72px] pb-safe shadow-[0_-5px_20px_rgba(0,0,0,0.3)]">
-        <div className="grid grid-cols-4 h-full">
+        <div className="grid grid-cols-5 h-full">
           <NavLink to="/" className={bottomNavClass}>
             <Home size={22} strokeWidth={1.5} />
             <span className="text-[10px] font-medium mt-1">Beranda</span>
@@ -124,6 +165,10 @@ export const Header: React.FC = () => {
            <NavLink to="/payment" className={bottomNavClass}>
             <CreditCard size={22} strokeWidth={1.5} />
             <span className="text-[10px] font-medium mt-1">Bayar</span>
+          </NavLink>
+          <NavLink to="/faq" className={bottomNavClass}>
+            <HelpCircle size={22} strokeWidth={1.5} />
+            <span className="text-[10px] font-medium mt-1">FAQ</span>
           </NavLink>
           <NavLink to="/contact" className={bottomNavClass}>
             <Phone size={22} strokeWidth={1.5} />

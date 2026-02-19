@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ShoppingBag, MessageCircle, Clock, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,7 +10,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 pt-16 pb-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           
           {/* Brand Info */}
           <div className="space-y-4">
@@ -36,9 +37,67 @@ export const Footer: React.FC = () => {
             </p>
           </div>
 
+          {/* Quick Links (Menu) */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-white">Menu Utama</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/" className="text-slate-400 hover:text-brand-accent transition-colors">
+                  Beranda
+                </Link>
+              </li>
+              <li>
+                <Link to="/products" className="text-slate-400 hover:text-brand-accent transition-colors">
+                  Produk
+                </Link>
+              </li>
+              <li>
+                <Link to="/payment" className="text-slate-400 hover:text-brand-accent transition-colors">
+                  Metode Pembayaran
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-slate-400 hover:text-brand-accent transition-colors">
+                  Hubungi Admin
+                </Link>
+              </li>
+              {/* Added Reseller Link here as well for visibility */}
+               <li>
+                <Link to="/reseller" className="text-brand-accent font-semibold hover:text-white transition-colors">
+                  Gabung Reseller 🚀
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Help Links (Bantuan) - NEW SECTION */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-white">Bantuan Pelanggan</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/status" className="text-slate-400 hover:text-brand-accent transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+                  Cek Status Pesanan
+                </Link>
+              </li>
+              <li>
+                <Link to="/warranty" className="text-slate-400 hover:text-brand-accent transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+                  Cara Klaim Garansi
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="text-slate-400 hover:text-brand-accent transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+                  FAQ (Tanya Jawab)
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white">Hubungi Kami</h3>
+            <h3 className="text-lg font-bold text-white">Kontak</h3>
             <div className="flex items-start space-x-3 text-slate-400">
               <MessageCircle className="w-5 h-5 text-brand-primary mt-0.5" />
               <a 
@@ -60,32 +119,6 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white">Menu Cepat</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/products" className="text-slate-400 hover:text-brand-accent transition-colors">
-                  Produk
-                </Link>
-              </li>
-              <li>
-                <Link to="/payment" className="text-slate-400 hover:text-brand-accent transition-colors">
-                  Metode Pembayaran
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-slate-400 hover:text-brand-accent transition-colors">
-                  Hubungi Admin
-                </Link>
-              </li>
-              <li>
-                <Link to="/" className="text-slate-400 hover:text-brand-accent transition-colors">
-                  Beranda
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
 
         <div className="border-t border-slate-800 pt-8 mt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">

@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { MessageCircle, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { MessageCircle, Clock, CheckCircle2, AlertCircle, Moon, Sun } from 'lucide-react';
 import { config } from '../siteConfig';
 
 export const ContactPage: React.FC = () => {
@@ -13,6 +14,18 @@ export const ContactPage: React.FC = () => {
           </p>
         </div>
 
+        {/* --- STATUS BANNER --- */}
+        <div className={`mb-10 p-4 rounded-xl flex items-center justify-center gap-3 border ${
+          config.status.isOnline 
+            ? 'bg-green-500/10 border-green-500/20 text-green-400' 
+            : 'bg-slate-800 border-slate-700 text-slate-400'
+        }`}>
+          {config.status.isOnline ? <Sun size={24} className="animate-pulse" /> : <Moon size={24} />}
+          <span className="font-bold text-lg">
+            {config.status.isOnline ? config.status.onlineMessage : config.status.offlineMessage}
+          </span>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* WhatsApp Card */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-green-500/50 transition-colors shadow-lg">
@@ -23,14 +36,25 @@ export const ContactPage: React.FC = () => {
             <p className="text-slate-400 mb-8">
               Respon cepat untuk pemesanan, klaim garansi, atau tanya jawab seputar produk.
             </p>
+            
             <a
               href={`https://wa.me/${config.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl text-center transition-colors"
+              className={`block w-full py-4 font-bold rounded-xl text-center transition-colors ${
+                config.status.isOnline 
+                  ? 'bg-green-600 hover:bg-green-500 text-white' 
+                  : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+              }`}
             >
-              Chat Admin Sekarang
+              {config.status.isOnline ? 'Chat Admin Sekarang' : 'Tinggalkan Pesan (Slow Respon)'}
             </a>
+            
+            {!config.status.isOnline && (
+              <p className="text-xs text-center text-slate-500 mt-4">
+                Admin sedang istirahat, pesan anda akan dibalas saat online kembali.
+              </p>
+            )}
           </div>
 
           {/* Info Card */}
