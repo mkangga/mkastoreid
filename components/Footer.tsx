@@ -70,6 +70,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/payment" className="text-slate-400 hover:text-brand-accent transition-colors">
+                  Metode Pembayaran
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="text-slate-400 hover:text-brand-accent transition-colors">
                   Hubungi Admin
                 </Link>

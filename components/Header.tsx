@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Home, Phone, Grid } from 'lucide-react';
+import { ShoppingBag, Home, Phone, Grid, CreditCard } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import { config } from '../siteConfig';
 
@@ -81,6 +81,14 @@ export const Header: React.FC = () => {
                   </>
                 )}
               </NavLink>
+              <NavLink to="/payment" className={navLinkClass}>
+                {({ isActive }) => (
+                  <>
+                    Pembayaran
+                    <Underline isActive={isActive} />
+                  </>
+                )}
+              </NavLink>
               <NavLink to="/contact" className={navLinkClass}>
                 {({ isActive }) => (
                   <>
@@ -104,18 +112,22 @@ export const Header: React.FC = () => {
 
       {/* --- MOBILE BOTTOM NAVIGATION --- */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 z-50 h-[72px] pb-safe shadow-[0_-5px_20px_rgba(0,0,0,0.3)]">
-        <div className="grid grid-cols-3 h-full">
+        <div className="grid grid-cols-4 h-full">
           <NavLink to="/" className={bottomNavClass}>
-            <Home size={24} strokeWidth={1.5} />
-            <span className="text-[11px] font-medium mt-1">Beranda</span>
+            <Home size={22} strokeWidth={1.5} />
+            <span className="text-[10px] font-medium mt-1">Beranda</span>
           </NavLink>
           <NavLink to="/products" className={bottomNavClass}>
-            <Grid size={24} strokeWidth={1.5} />
-            <span className="text-[11px] font-medium mt-1">Produk</span>
+            <Grid size={22} strokeWidth={1.5} />
+            <span className="text-[10px] font-medium mt-1">Produk</span>
+          </NavLink>
+           <NavLink to="/payment" className={bottomNavClass}>
+            <CreditCard size={22} strokeWidth={1.5} />
+            <span className="text-[10px] font-medium mt-1">Bayar</span>
           </NavLink>
           <NavLink to="/contact" className={bottomNavClass}>
-            <Phone size={24} strokeWidth={1.5} />
-            <span className="text-[11px] font-medium mt-1">Kontak</span>
+            <Phone size={22} strokeWidth={1.5} />
+            <span className="text-[10px] font-medium mt-1">Kontak</span>
           </NavLink>
         </div>
       </nav>

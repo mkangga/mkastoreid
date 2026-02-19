@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { ProductsPage } from './pages/ProductsPage';
 import { ContactPage } from './pages/ContactPage';
 import { OrderPage } from './pages/OrderPage';
+import { PaymentPage } from './pages/PaymentPage';
 import { MessageCircle } from 'lucide-react';
 import { config } from './siteConfig';
 
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/order" element={<OrderPage />} />
           </Routes>
