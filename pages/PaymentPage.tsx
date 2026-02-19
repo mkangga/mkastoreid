@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CreditCard, Wallet, Building2, Download, Copy, Check, Info } from 'lucide-react';
+import { Wallet, Building2, Download, Copy, Check, Info } from 'lucide-react';
 
 const wallets = [
   { id: 'dana', name: 'DANA', number: '085155043557' },
