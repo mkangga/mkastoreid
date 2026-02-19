@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Package, Plus, ArrowRight, Sparkles } from 'lucide-react';
+import { Package, Plus, Sparkles } from 'lucide-react';
 import { config } from '../siteConfig';
 
 const bundles = [

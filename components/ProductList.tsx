@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ProductCard } from './ProductCard';
 import { products } from '../siteConfig';
-import { ArrowRight, Search, SlidersHorizontal, PackageX } from 'lucide-react';
+import { ArrowRight, Search, PackageX } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface ProductListProps {
