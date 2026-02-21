@@ -29,7 +29,7 @@ export const StatusPage: React.FC = () => {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-3">Cek Status Pesanan</h1>
           <p className="text-slate-400">
-            Sudah transfer tapi belum dapat akun? Cek status pesananmu langsung ke Admin.
+            Sudah transfer tapi belum dapat akun atau pulsa belum masuk? Cek status pesananmu langsung ke Admin.
           </p>
         </div>
 

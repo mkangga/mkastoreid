@@ -31,7 +31,7 @@ export const WarrantyPage: React.FC = () => {
             <div className="mb-4 text-brand-accent"><AlertTriangle size={32} /></div>
             <h3 className="text-xl font-bold text-white mb-2">Screenshot Kendala</h3>
             <p className="text-slate-400 text-sm">
-              Jika akun tidak bisa diakses atau kembali ke free, segera screenshot pesan error yang muncul pada layar.
+              Jika akun tidak bisa diakses, atau pulsa/token belum masuk dalam 10 menit, segera screenshot bukti transaksi/kendala.
             </p>
           </div>
 
@@ -75,7 +75,11 @@ export const WarrantyPage: React.FC = () => {
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-brand-primary shrink-0 mt-0.5" />
-              <span className="text-slate-300">Garansi hangus jika pelanggan melanggar aturan penggunaan (mengubah profil orang lain, mengacak-acak settingan).</span>
+              <span className="text-slate-300">Garansi <strong>Uang Kembali</strong> jika transaksi PPOB gagal dari server pusat.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-brand-primary shrink-0 mt-0.5" />
+              <span className="text-slate-300">Komplain PPOB maksimal <strong>1x24 Jam</strong> setelah transaksi dinyatakan sukses oleh sistem.</span>
             </li>
           </ul>
         </div>

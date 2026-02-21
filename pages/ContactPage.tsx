@@ -34,7 +34,7 @@ export const ContactPage: React.FC = () => {
             </div>
             <h2 className="text-2xl font-bold text-white mb-4">Chat WhatsApp</h2>
             <p className="text-slate-400 mb-8">
-              Respon cepat untuk pemesanan, klaim garansi, atau tanya jawab seputar produk.
+              Respon cepat untuk pemesanan akun premium, transaksi PPOB, klaim garansi, atau tanya jawab seputar produk.
             </p>
             
             <a

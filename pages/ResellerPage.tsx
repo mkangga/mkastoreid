@@ -50,7 +50,7 @@ export const ResellerPage: React.FC = () => {
             </span>
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-10">
-            Tanpa stok barang, tanpa ribet, modal HP aja. Mulai bisnis produk digitalmu sekarang bersama supplier terpercaya.
+            Tanpa stok barang, tanpa ribet, modal HP aja. Mulai bisnis produk digital & PPOB sekarang bersama supplier terpercaya.
           </p>
           <button 
             onClick={handleJoin}
