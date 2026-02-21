@@ -4,10 +4,11 @@ export interface Product {
   name: string;
   description: string;
   priceStart?: string; // Optional starting price text
-  imageUrl: string;
+  imageUrl?: string;
+  icon?: string;
   whatsappMessage: string;
   badge?: string; // e.g. "Best Seller"
-  category: 'Film & Series' | 'Musik' | 'Produktivitas' | 'Lainnya';
+  category: string;
 }
 
 export interface Feature {

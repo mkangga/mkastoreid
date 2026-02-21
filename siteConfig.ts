@@ -22,12 +22,12 @@ export const config: SiteConfig = {
   
   hero: {
     title: "MKA Store",
-    subtitle: "Solusi Akun Premium Murah & Bergaransi",
-    description: "Nikmati layanan streaming dan aplikasi premium favoritmu tanpa bikin kantong bolong. Aman, Cepat, dan Terpercaya.",
+    subtitle: "Solusi Akun Premium & Produk Digital Terlengkap",
+    description: "Nikmati layanan streaming, aplikasi premium, hingga kebutuhan PPOB seperti Pulsa, Token PLN, dan Top Up E-Wallet dengan harga termurah.",
   },
   footer: {
     hours: "Senin - Minggu: 08.00 - 22.00 WIB",
-    disclaimer: "Disclaimer: Produk yang kami jual adalah akun sharing/privat legal. Kami bukan afiliasi resmi dari brand terkait.",
+    disclaimer: "Disclaimer: Produk yang kami jual adalah akun sharing/privat legal dan layanan PPOB resmi. Kami bukan afiliasi resmi dari brand terkait.",
   }
 };
 
@@ -35,19 +35,19 @@ export const features: Feature[] = [
   {
     id: 1,
     title: "100% Aman & Legal",
-    description: "Akun yang kami sediakan legal dan aman digunakan jangka panjang.",
+    description: "Akun premium legal dan transaksi PPOB terjamin aman.",
     icon: 'shield'
   },
   {
     id: 2,
-    title: "Proses Cepat",
-    description: "Pesanan diproses segera setelah pembayaran terkonfirmasi.",
+    title: "Proses Otomatis",
+    description: "Layanan PPOB diproses otomatis 24 jam. Akun premium diproses cepat saat jam kerja.",
     icon: 'zap'
   },
   {
     id: 3,
     title: "Full Garansi",
-    description: "Layanan purna jual terbaik dengan garansi sesuai durasi sewa.",
+    description: "Garansi penuh untuk akun premium dan jaminan sukses untuk transaksi PPOB.",
     icon: 'check'
   }
 ];
@@ -55,27 +55,28 @@ export const features: Feature[] = [
 export const faqs: FAQItem[] = [
   {
     question: "Apakah akun ini legal dan aman?",
-    answer: "Tentu saja. Kami hanya menjual akun legal yang dibayar resmi menggunakan kartu kredit/metode pembayaran sah. Bukan akun hasil hack atau carding, sehingga aman digunakan jangka panjang."
+    answer: "Tentu saja. Kami hanya menjual akun legal yang dibayar resmi. Bukan akun hasil hack atau carding. Untuk PPOB, transaksi diproses melalui server resmi."
   },
   {
     question: "Bagaimana sistem garansinya?",
-    answer: "Kami memberikan garansi full sesuai durasi sewa. Jika terjadi masalah (seperti back to free), cukup chat admin dengan menyertakan bukti pembelian, dan kami akan perbaiki atau ganti akun baru."
+    answer: "Kami memberikan garansi full sesuai durasi sewa untuk akun premium. Untuk PPOB, jika transaksi gagal, saldo akan dikembalikan atau transaksi diulang."
   },
   {
     question: "Berapa lama proses pengerjaannya?",
-    answer: "Normalnya 5-10 menit setelah pembayaran terkonfirmasi jika admin sedang online. Maksimal 1x24 jam jika ada kendala sistem atau antrian padat."
+    answer: "Akun premium: 5-10 menit saat jam kerja. PPOB (Pulsa, Token, dll): Otomatis detik itu juga (24 Jam)."
   },
   {
     question: "Apakah bisa diperpanjang (Renewal)?",
-    answer: "Sebagian besar produk bisa diperpanjang di akun yang sama (khusus Privat). Untuk akun Sharing, biasanya ganti akun setiap bulan. Silakan tanya admin untuk detail spesifik per produk."
+    answer: "Sebagian besar produk premium bisa diperpanjang. Untuk PPOB, Anda bisa transaksi berulang kali kapan saja."
   },
   {
     question: "Metode pembayaran apa saja yang tersedia?",
-    answer: "Kami menerima pembayaran via QRIS (All E-Wallet & Mobile Banking), Transfer Bank (BRI dan SeaBank), dan E-Wallet (Dana, OVO, GoPay, ShopeePay dan LinkAja)."
+    answer: "Kami menerima pembayaran via QRIS (All E-Wallet & Mobile Banking), Transfer Bank, dan E-Wallet."
   }
 ];
 
 export const products: Product[] = [
+  // --- PREMIUM APPS ---
   {
     id: 'netflix',
     name: 'Netflix Premium',
@@ -105,15 +106,6 @@ export const products: Product[] = [
     category: 'Film & Series'
   },
   {
-    id: 'disney',
-    name: 'Disney+ Hotstar',
-    description: 'Film Disney, Marvel, Pixar, dan Star Wars terlengkap.',
-    priceStart: 'Mulai Rp 20rb/bulan',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1280px-Disney%2B_logo.svg.png?20250509231455',
-    whatsappMessage: 'Halo kak, mau beli akun Disney+ nya, bisa minta pricelistnya?',
-    category: 'Film & Series'
-  },
-  {
     id: 'canva',
     name: 'Canva Pro',
     description: 'Akses jutaan elemen premium, template, dan fitur ajaib.',
@@ -123,13 +115,138 @@ export const products: Product[] = [
     badge: 'Popular',
     category: 'Produktivitas'
   },
+  
+  // --- PPOB & TAGIHAN ---
   {
-    id: 'viu',
-    name: 'VIU Premium',
-    description: 'Nonton drakor, anime, dan variety show tanpa iklan.',
-    priceStart: 'Mulai Rp 10rb/tahun',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Viu_logo.svg/960px-Viu_logo.svg.png?20260131105324',
-    whatsappMessage: 'Halo kak, mau beli akun VIU Premiumnya, bisa minta pricelistnya?',
-    category: 'Film & Series'
+    id: 'pulsa',
+    name: 'Pulsa All Operator',
+    description: 'Telkomsel, Indosat, XL, Axis, Tri, Smartfren. Harga termurah.',
+    priceStart: 'Mulai Rp 1.000',
+    icon: 'Smartphone',
+    whatsappMessage: 'Halo kak, mau isi Pulsa dong.',
+    category: 'PPOB & Tagihan'
+  },
+  {
+    id: 'paket-data',
+    name: 'Paket Data',
+    description: 'Kuota internet murah untuk semua operator. Harian, Mingguan, Bulanan.',
+    priceStart: 'Mulai Rp 5.000',
+    icon: 'Signal',
+    whatsappMessage: 'Halo kak, mau beli Paket Data dong.',
+    category: 'PPOB & Tagihan'
+  },
+  {
+    id: 'pln',
+    name: 'Token PLN & Tagihan',
+    description: 'Beli token listrik atau bayar tagihan listrik pascabayar.',
+    priceStart: 'Admin Murah',
+    icon: 'Zap',
+    whatsappMessage: 'Halo kak, mau beli Token PLN / Bayar Listrik dong.',
+    category: 'PPOB & Tagihan'
+  },
+  {
+    id: 'bpjs',
+    name: 'Bayar BPJS',
+    description: 'Bayar iuran BPJS Kesehatan keluarga Anda dengan mudah.',
+    priceStart: 'Admin Murah',
+    icon: 'HeartPulse',
+    whatsappMessage: 'Halo kak, mau bayar BPJS dong.',
+    category: 'PPOB & Tagihan'
+  },
+  {
+    id: 'internet-tv',
+    name: 'TV Kabel & Internet',
+    description: 'Indihome, First Media, MNC Vision, Transvision, dll.',
+    priceStart: 'Admin Murah',
+    icon: 'Tv',
+    whatsappMessage: 'Halo kak, mau bayar tagihan TV Kabel / Internet dong.',
+    category: 'PPOB & Tagihan'
+  },
+  {
+    id: 'pdam',
+    name: 'Tagihan Air PDAM',
+    description: 'Cek dan bayar tagihan air PDAM berbagai wilayah.',
+    priceStart: 'Admin Murah',
+    icon: 'Droplets',
+    whatsappMessage: 'Halo kak, mau bayar PDAM dong.',
+    category: 'PPOB & Tagihan'
+  },
+
+  // --- E-WALLET & KEUANGAN ---
+  {
+    id: 'ewallet',
+    name: 'Top Up E-Wallet',
+    description: 'Dana, OVO, GoPay, ShopeePay, LinkAja, iSaku, Maxim, Grab, Gojek.',
+    priceStart: 'Admin Mulai Rp 0',
+    icon: 'Wallet',
+    whatsappMessage: 'Halo kak, mau Top Up E-Wallet dong.',
+    badge: 'Laris',
+    category: 'E-Wallet & Keuangan'
+  },
+  {
+    id: 'transfer',
+    name: 'Jasa Transfer Uang',
+    description: 'Kirim uang ke semua bank di Indonesia. Realtime & Aman.',
+    priceStart: 'Admin Murah',
+    icon: 'Banknote',
+    whatsappMessage: 'Halo kak, mau jasa transfer uang dong.',
+    category: 'E-Wallet & Keuangan'
+  },
+  {
+    id: 'convert',
+    name: 'Convert Saldo',
+    description: 'Tukar saldo e-wallet ke rekening atau sebaliknya. Rate tinggi.',
+    priceStart: 'Rate Tinggi',
+    icon: 'RefreshCw',
+    whatsappMessage: 'Halo kak, mau convert saldo dong.',
+    category: 'E-Wallet & Keuangan'
+  },
+  {
+    id: 'angsuran',
+    name: 'Angsuran Kredit',
+    description: 'Bayar cicilan leasing (WOM, FIF, BAF, OTO, dll).',
+    priceStart: 'Admin Murah',
+    icon: 'CreditCard',
+    whatsappMessage: 'Halo kak, mau bayar angsuran kredit dong.',
+    category: 'E-Wallet & Keuangan'
+  },
+  {
+    id: 'pendidikan',
+    name: 'Biaya Pendidikan',
+    description: 'Bayar SPP sekolah, kuliah, dan biaya pendidikan lainnya.',
+    priceStart: 'Admin Murah',
+    icon: 'GraduationCap',
+    whatsappMessage: 'Halo kak, mau bayar biaya pendidikan dong.',
+    category: 'E-Wallet & Keuangan'
+  },
+  {
+    id: 'va',
+    name: 'Bayar Virtual Account',
+    description: 'Pembayaran VA berbagai bank untuk berbagai merchant.',
+    priceStart: 'Admin Murah',
+    icon: 'Hash',
+    whatsappMessage: 'Halo kak, mau bayar Virtual Account dong.',
+    category: 'E-Wallet & Keuangan'
+  },
+
+  // --- TOP UP & VOUCHER ---
+  {
+    id: 'games',
+    name: 'Top Up Games',
+    description: 'Mobile Legends, FF, PUBG, Genshin, Valorant, dll.',
+    priceStart: 'Mulai Rp 3.000',
+    icon: 'Gamepad2',
+    whatsappMessage: 'Halo kak, mau Top Up Game dong.',
+    badge: 'Gamers',
+    category: 'Top Up & Voucher'
+  },
+  {
+    id: 'ecommerce',
+    name: 'Bayar E-Commerce',
+    description: 'Bayar belanjaan Shopee, Tokopedia, Bukalapak, TikTok Shop.',
+    priceStart: 'Admin Murah',
+    icon: 'ShoppingBag',
+    whatsappMessage: 'Halo kak, mau bayar tagihan E-Commerce dong.',
+    category: 'Top Up & Voucher'
   }
 ];

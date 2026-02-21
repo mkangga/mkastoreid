@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShoppingCart } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { Product } from '../types';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +16,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     navigate(`/order?product=${encodeURIComponent(product.name)}`);
   };
 
+  const IconComponent = product.icon ? (LucideIcons as any)[product.icon] : null;
+
   return (
     <div className="group relative flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-brand-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Badge */}
@@ -28,11 +31,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="relative h-48 overflow-hidden bg-slate-800 p-6 flex items-center justify-center">
         {/* Background gradient effect for depth */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent z-10 pointer-events-none"></div>
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 relative z-0"
-        />
+        {product.imageUrl ? (
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 relative z-0"
+          />
+        ) : IconComponent ? (
+          <IconComponent className="w-24 h-24 text-brand-primary group-hover:scale-110 transition-transform duration-500 relative z-0" />
+        ) : null}
       </div>
 
       {/* Content */}

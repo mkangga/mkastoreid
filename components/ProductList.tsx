@@ -10,7 +10,7 @@ interface ProductListProps {
   showTitle?: boolean;
 }
 
-const categories = ['Semua', 'Film & Series', 'Musik', 'Produktivitas'];
+const categories = ['Semua', 'Film & Series', 'Musik', 'Produktivitas', 'PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan', 'Lainnya'];
 
 export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = true }) => {
   const [searchQuery, setSearchQuery] = useState('');
