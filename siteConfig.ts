@@ -195,8 +195,8 @@ export const products: Product[] = [
   {
     id: 'convert',
     name: 'Convert Saldo',
-    description: 'Tukar saldo e-wallet ke rekening atau sebaliknya. Rate tinggi.',
-    priceStart: 'Rate Tinggi',
+    description: 'Tukar saldo e-wallet ke rekening atau sebaliknya.',
+    priceStart: '2rb',
     icon: 'RefreshCw',
     whatsappMessage: 'Halo kak, mau convert saldo dong.',
     category: 'E-Wallet & Keuangan'

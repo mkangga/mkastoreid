@@ -241,7 +241,33 @@ export const OrderForm: React.FC = () => {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Nomor Asal (Sumber)</label>
+                <label className="block text-sm font-medium text-slate-400 mb-2">Platform Asal (Sumber)</label>
+                <select 
+                  className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  value={formData.sourcePlatform || ''}
+                  onChange={(e) => updateField('sourcePlatform', e.target.value)}
+                >
+                  <option value="" disabled>-- Pilih Platform --</option>
+                  <option value="BCA">BCA</option>
+                  <option value="BRI">BRI</option>
+                  <option value="Mandiri">Mandiri</option>
+                  <option value="BNI">BNI</option>
+                  <option value="Cimb Niaga">Cimb Niaga</option>
+                  <option value="Permata">Permata</option>
+                  <option value="DANA">DANA</option>
+                  <option value="GoPay">GoPay</option>
+                  <option value="ShopeePay">ShopeePay</option>
+                  <option value="OVO">OVO</option>
+                  <option value="LinkAja">LinkAja</option>
+                  <option value="AstraPay">AstraPay</option>
+                  <option value="Lainnya">Lainnya (Ketik Sendiri)</option>
+                </select>
+                {formData.sourcePlatform === 'Lainnya' && (
+                  <input type="text" placeholder="Nama Platform Asal" className="mt-2 w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('customSourcePlatform', e.target.value)} />
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-2">Nomor Asal</label>
                 <input type="number" placeholder="Nomor Pengirim" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('sourceNumber', e.target.value)} />
               </div>
               <div>
@@ -249,16 +275,47 @@ export const OrderForm: React.FC = () => {
                 <input type="text" placeholder="Nama Pengirim" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('sourceName', e.target.value)} />
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Nomor Tujuan (Penerima)</label>
-                <input type="number" placeholder="Nomor Penerima" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('destNumber', e.target.value)} />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Nama Tujuan</label>
-                <input type="text" placeholder="Nama Penerima" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('destName', e.target.value)} />
+            
+            <div className="border-t border-slate-800 my-4 pt-4">
+              <p className="text-sm text-brand-primary font-bold mb-4">Tujuan Transfer (Penerima)</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-2">Platform Tujuan</label>
+                  <select 
+                    className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                    value={formData.destPlatform || ''}
+                    onChange={(e) => updateField('destPlatform', e.target.value)}
+                  >
+                    <option value="" disabled>-- Pilih Platform --</option>
+                    <option value="BCA">BCA</option>
+                    <option value="BRI">BRI</option>
+                    <option value="Mandiri">Mandiri</option>
+                    <option value="BNI">BNI</option>
+                    <option value="Cimb Niaga">Cimb Niaga</option>
+                    <option value="Permata">Permata</option>
+                    <option value="DANA">DANA</option>
+                    <option value="GoPay">GoPay</option>
+                    <option value="ShopeePay">ShopeePay</option>
+                    <option value="OVO">OVO</option>
+                    <option value="LinkAja">LinkAja</option>
+                    <option value="AstraPay">AstraPay</option>
+                    <option value="Lainnya">Lainnya (Ketik Sendiri)</option>
+                  </select>
+                  {formData.destPlatform === 'Lainnya' && (
+                    <input type="text" placeholder="Nama Platform Tujuan" className="mt-2 w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('customDestPlatform', e.target.value)} />
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-2">Nomor Tujuan</label>
+                  <input type="number" placeholder="Nomor Penerima" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('destNumber', e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-2">Nama Tujuan</label>
+                  <input type="text" placeholder="Nama Penerima" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('destName', e.target.value)} />
+                </div>
               </div>
             </div>
+
             <div className="mt-4">
               <label className="block text-sm font-medium text-slate-400 mb-2">Nominal Convert</label>
               <input type="number" placeholder="Contoh: 100000" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('nominal', e.target.value)} />
@@ -275,12 +332,37 @@ export const OrderForm: React.FC = () => {
               <input type="text" placeholder="Contoh: Adira, FIF, Shopee Paylater" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('platformName', e.target.value)} />
             </div>
             <div>
+              <label className="block text-sm font-medium text-slate-400 mb-2">Bank Virtual Account (Opsional)</label>
+              <select 
+                className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                value={formData.bankVA || ''}
+                onChange={(e) => updateField('bankVA', e.target.value)}
+              >
+                <option value="" disabled>-- Pilih Bank (Jika Ada) --</option>
+                <option value="BCA">BCA</option>
+                <option value="BRI">BRI</option>
+                <option value="Mandiri">Mandiri</option>
+                <option value="BNI">BNI</option>
+                <option value="Cimb Niaga">Cimb Niaga</option>
+                <option value="Permata">Permata</option>
+                <option value="Lainnya">Lainnya (Ketik Sendiri)</option>
+              </select>
+              {formData.bankVA === 'Lainnya' && (
+                <input type="text" placeholder="Nama Bank" className="mt-2 w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('customBank', e.target.value)} />
+              )}
+            </div>
+            <div>
               <label className="block text-sm font-medium text-slate-400 mb-2">Nomor Kontrak / Pelanggan</label>
               <input type="number" placeholder="Masukkan Nomor Kontrak" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('contractNumber', e.target.value)} />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-2">Nama Pelanggan (Sesuai Kontrak)</label>
               <input type="text" placeholder="Nama Pelanggan" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('contractName', e.target.value)} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-2">Nominal Angsuran</label>
+              <input type="number" placeholder="Jumlah Tagihan" className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-primary" onChange={(e) => updateField('nominal', e.target.value)} />
+              <p className="text-xs text-slate-500 mt-1">*Biaya Admin Flat Rp 2.000</p>
             </div>
           </>
         );
@@ -573,10 +655,13 @@ export const OrderForm: React.FC = () => {
         message += `\n• Tujuan: ${formData.destNumber} (${formData.destName})\n• Nominal: ${formData.nominal}`;
         break;
       case 'convert':
-        message += `\n• Dari: ${formData.sourceNumber} (${formData.sourceName})\n• Ke: ${formData.destNumber} (${formData.destName})\n• Nominal Convert: ${formData.nominal}`;
+        const srcPlat = formData.sourcePlatform === 'Lainnya' ? formData.customSourcePlatform : formData.sourcePlatform;
+        const destPlat = formData.destPlatform === 'Lainnya' ? formData.customDestPlatform : formData.destPlatform;
+        message += `\n• Dari: ${srcPlat} - ${formData.sourceNumber} (${formData.sourceName})\n• Ke: ${destPlat} - ${formData.destNumber} (${formData.destName})\n• Nominal Convert: ${formData.nominal}`;
         break;
       case 'angsuran':
-        message += `\n• Platform: ${formData.platformName}\n• No. Kontrak: ${formData.contractNumber}\n• Nama Pelanggan: ${formData.contractName}`;
+        const angsuranBank = formData.bankVA ? (formData.bankVA === 'Lainnya' ? formData.customBank : formData.bankVA) : '-';
+        message += `\n• Platform: ${formData.platformName}\n• Bank VA: ${angsuranBank}\n• No. Kontrak: ${formData.contractNumber}\n• Nama Pelanggan: ${formData.contractName}\n• Nominal: ${formData.nominal}`;
         break;
       case 'pendidikan':
         message += `\n• ID Siswa/Tagihan: ${formData.studentId}\n• Nama Siswa: ${formData.studentName}\n• Nominal: ${formData.nominal}`;

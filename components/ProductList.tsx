@@ -10,7 +10,7 @@ interface ProductListProps {
   showTitle?: boolean;
 }
 
-const categories = ['Semua', 'Film & Series', 'Musik', 'Produktivitas', 'PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan', 'Lainnya'];
+const categories = ['Semua', 'Akun Premium', 'PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan', 'Lainnya'];
 
 export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = true }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,7 +26,12 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
 
     // Filter by Category
     if (selectedCategory !== 'Semua') {
-      result = result.filter(product => product.category === selectedCategory);
+      if (selectedCategory === 'Akun Premium') {
+        // Filter khusus untuk Akun Premium (exclude PPOB categories)
+        result = result.filter(product => !['PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan'].includes(product.category));
+      } else {
+        result = result.filter(product => product.category === selectedCategory);
+      }
     }
 
     // Filter by Search Query
@@ -52,10 +57,10 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
         {showTitle && (
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              {limit ? 'Produk Terpopuler' : 'Katalog Produk Premium'}
+              {limit ? 'Produk Terpopuler' : 'Katalog Produk Lengkap'}
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              Temukan akun premium favoritmu dengan harga terbaik di pasaran.
+              Temukan akun premium, pulsa, token listrik, dan top up game dengan harga terbaik.
             </p>
           </div>
         )}
@@ -71,7 +76,7 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
               </div>
               <input
                 type="text"
-                placeholder="Cari produk (contoh: Netflix, Canva)..."
+                placeholder="Cari produk (contoh: Netflix, Pulsa, Token PLN, Mobile Legends)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-900 border border-slate-700 rounded-full py-3.5 pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all shadow-lg"
