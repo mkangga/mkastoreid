@@ -106,6 +106,15 @@ export const products: Product[] = [
     category: 'Film & Series'
   },
   {
+    id: 'viu',
+    name: 'Viu Premium',
+    description: 'Nonton drama Korea, variety show, dan anime Asia terbaik tanpa iklan.',
+    priceStart: 'Mulai Rp 10rb/bulan',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Viu_logo.svg',
+    whatsappMessage: 'Halo kak, mau beli akun Viu Premiumnya, bisa minta pricelistnya?',
+    category: 'Film & Series'
+  },
+  {
     id: 'canva',
     name: 'Canva Pro',
     description: 'Akses jutaan elemen premium, template, dan fitur ajaib.',
