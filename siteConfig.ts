@@ -139,7 +139,7 @@ export const products: Product[] = [
     id: 'pln',
     name: 'Token PLN & Tagihan',
     description: 'Beli token listrik atau bayar tagihan listrik pascabayar.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'Zap',
     whatsappMessage: 'Halo kak, mau beli Token PLN / Bayar Listrik dong.',
     category: 'PPOB & Tagihan'
@@ -148,7 +148,7 @@ export const products: Product[] = [
     id: 'bpjs',
     name: 'Bayar BPJS',
     description: 'Bayar iuran BPJS Kesehatan keluarga Anda dengan mudah.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'HeartPulse',
     whatsappMessage: 'Halo kak, mau bayar BPJS dong.',
     category: 'PPOB & Tagihan'
@@ -157,7 +157,7 @@ export const products: Product[] = [
     id: 'internet-tv',
     name: 'TV Kabel & Internet',
     description: 'Indihome, First Media, MNC Vision, Transvision, dll.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'Tv',
     whatsappMessage: 'Halo kak, mau bayar tagihan TV Kabel / Internet dong.',
     category: 'PPOB & Tagihan'
@@ -166,7 +166,7 @@ export const products: Product[] = [
     id: 'pdam',
     name: 'Tagihan Air PDAM',
     description: 'Cek dan bayar tagihan air PDAM berbagai wilayah.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'Droplets',
     whatsappMessage: 'Halo kak, mau bayar PDAM dong.',
     category: 'PPOB & Tagihan'
@@ -187,7 +187,7 @@ export const products: Product[] = [
     id: 'transfer',
     name: 'Jasa Transfer Uang',
     description: 'Kirim uang ke semua bank di Indonesia. Realtime & Aman.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'Banknote',
     whatsappMessage: 'Halo kak, mau jasa transfer uang dong.',
     category: 'E-Wallet & Keuangan'
@@ -196,7 +196,7 @@ export const products: Product[] = [
     id: 'convert',
     name: 'Convert Saldo',
     description: 'Tukar saldo e-wallet ke rekening atau sebaliknya.',
-    priceStart: '2rb',
+    priceStart: 'Admin Rp 2.000',
     icon: 'RefreshCw',
     whatsappMessage: 'Halo kak, mau convert saldo dong.',
     category: 'E-Wallet & Keuangan'
@@ -205,7 +205,7 @@ export const products: Product[] = [
     id: 'angsuran',
     name: 'Angsuran Kredit',
     description: 'Bayar cicilan leasing (WOM, FIF, BAF, OTO, dll).',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'CreditCard',
     whatsappMessage: 'Halo kak, mau bayar angsuran kredit dong.',
     category: 'E-Wallet & Keuangan'
@@ -214,7 +214,7 @@ export const products: Product[] = [
     id: 'pendidikan',
     name: 'Biaya Pendidikan',
     description: 'Bayar SPP sekolah, kuliah, dan biaya pendidikan lainnya.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'GraduationCap',
     whatsappMessage: 'Halo kak, mau bayar biaya pendidikan dong.',
     category: 'E-Wallet & Keuangan'
@@ -223,7 +223,7 @@ export const products: Product[] = [
     id: 'va',
     name: 'Bayar Virtual Account',
     description: 'Pembayaran VA berbagai bank untuk berbagai merchant.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'Hash',
     whatsappMessage: 'Halo kak, mau bayar Virtual Account dong.',
     category: 'E-Wallet & Keuangan'
@@ -244,7 +244,7 @@ export const products: Product[] = [
     id: 'ecommerce',
     name: 'Bayar E-Commerce',
     description: 'Bayar belanjaan Shopee, Tokopedia, Bukalapak, TikTok Shop.',
-    priceStart: 'Admin Murah',
+    priceStart: 'Admin Rp 2.000',
     icon: 'ShoppingBag',
     whatsappMessage: 'Halo kak, mau bayar tagihan E-Commerce dong.',
     category: 'Top Up & Voucher'

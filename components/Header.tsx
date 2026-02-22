@@ -15,17 +15,6 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Style untuk link desktop
-  const navLinkClass = ({ isActive }: { isActive: boolean }) => 
-    `font-medium text-sm tracking-wide transition-all duration-300 hover:text-white relative group py-2 ${
-      isActive ? 'text-brand-accent' : 'text-slate-300'
-    }`;
-
-  // Komponen Underline Animasi (Desktop)
-  const Underline = ({ isActive }: { isActive: boolean }) => (
-    <span className={`absolute bottom-0 left-0 h-0.5 bg-brand-accent transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-  );
-
   // Style untuk link mobile bottom nav
   const bottomNavClass = ({ isActive }: { isActive: boolean }) => 
     `flex flex-col items-center justify-center w-full h-full transition-colors duration-200 active:scale-95 ${
@@ -55,27 +44,27 @@ export const Header: React.FC = () => {
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-brand-dark/90 backdrop-blur-md border-b border-slate-800 py-3 shadow-lg'
-            : 'bg-transparent py-5'
+            ? 'bg-brand-dark/80 backdrop-blur-xl border-b border-white/5 py-3 shadow-2xl shadow-black/20'
+            : 'bg-transparent py-6'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* LOGO & STATUS */}
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center gap-2 group z-50">
+            <div className="flex items-center gap-6">
+              <Link to="/" className="flex items-center gap-3 group z-50">
                 {config.logoUrl ? (
                   <img 
                     src={config.logoUrl} 
                     alt={config.name} 
-                    className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+                    className="h-10 md:h-11 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-lg"
                   />
                 ) : (
                   <>
-                    <div className="bg-brand-primary p-1.5 rounded-lg group-hover:bg-brand-accent transition-colors">
+                    <div className="bg-brand-primary p-2 rounded-xl shadow-lg shadow-brand-primary/20 group-hover:bg-brand-primaryHover transition-colors">
                       <ShoppingBag className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-xl font-bold text-white tracking-tight">
+                    <span className="text-xl font-bold text-white tracking-tight font-heading">
                       {config.name}
                     </span>
                   </>
@@ -87,58 +76,39 @@ export const Header: React.FC = () => {
             </div>
 
             {/* DESKTOP NAVIGATION */}
-            <nav className="hidden md:flex items-center gap-6">
-              <NavLink to="/" className={navLinkClass}>
-                {({ isActive }) => (
-                  <>
-                    Beranda
-                    <Underline isActive={isActive} />
-                  </>
-                )}
+            <nav className="hidden md:flex items-center gap-1 bg-white/5 p-1.5 rounded-full border border-white/5 backdrop-blur-md">
+              <NavLink to="/" className={({ isActive }) => `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${isActive ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/25' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+                Beranda
               </NavLink>
-              <NavLink to="/products" className={navLinkClass}>
-                {({ isActive }) => (
-                  <>
-                    Produk
-                    <Underline isActive={isActive} />
-                  </>
-                )}
+              <NavLink to="/products" className={({ isActive }) => `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${isActive ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/25' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+                Produk
               </NavLink>
-              <NavLink to="/reseller" className={navLinkClass}>
-                {({ isActive }) => (
-                  <>
-                    Reseller
-                    <Underline isActive={isActive} />
-                    {/* New Badge */}
-                    <span className="absolute -top-2 -right-3 text-[9px] bg-red-500 text-white px-1 rounded animate-pulse">New</span>
-                  </>
-                )}
+              <NavLink to="/reseller" className={({ isActive }) => `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 relative ${isActive ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/25' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+                Reseller
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
               </NavLink>
-              <NavLink to="/payment" className={navLinkClass}>
-                {({ isActive }) => (
-                  <>
-                    Bayar
-                    <Underline isActive={isActive} />
-                  </>
-                )}
+              <NavLink to="/payment" className={({ isActive }) => `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${isActive ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/25' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+                Bayar
               </NavLink>
-              <NavLink to="/faq" className={navLinkClass}>
-                {({ isActive }) => (
-                  <>
-                    FAQ
-                    <Underline isActive={isActive} />
-                  </>
-                )}
+              <NavLink to="/faq" className={({ isActive }) => `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${isActive ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/25' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+                FAQ
               </NavLink>
-              
-              {/* CTA Button */}
-              <Link 
-                to="/order" 
-                className="ml-2 px-5 py-2 bg-slate-800 hover:bg-brand-primary text-white text-sm font-semibold rounded-full transition-all duration-300 border border-slate-700 hover:border-brand-primary hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]"
-              >
-                Pesan
-              </Link>
             </nav>
+              
+            {/* CTA Button */}
+            <div className="hidden md:block">
+              <a 
+                href={`https://wa.me/${config.whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-brand-dark text-sm font-bold rounded-full transition-all duration-300 hover:bg-brand-accent hover:text-white hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] transform hover:-translate-y-0.5"
+              >
+                Hubungi Admin
+              </a>
+            </div>
 
             {/* Mobile Status Dot (Visible only on mobile header) */}
             <div className="md:hidden flex items-center">

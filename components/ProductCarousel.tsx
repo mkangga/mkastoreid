@@ -3,9 +3,13 @@ import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ProductCard } from './ProductCard';
 import { products } from '../siteConfig';
+import { ProductDetailModal } from './ProductDetailModal';
+import { Product } from '../types';
 
 export const ProductCarousel: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   // isDown: Mouse ditekan (untuk styling cursor)
   // isDragging: Mouse digerakkan setelah ditekan (untuk mematikan event klik pada anak elemen)
@@ -15,12 +19,19 @@ export const ProductCarousel: React.FC = () => {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
+  const handleProductClick = (product: Product) => {
+    if (!isDragging) {
+      setSelectedProduct(product);
+      setIsModalOpen(true);
+    }
+  };
+
   // Fungsi scroll tombol manual
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const { current } = scrollRef;
       // Scroll sebesar lebar item + gap
-      const scrollAmount = direction === 'left' ? -350 : 350;
+      const scrollAmount = direction === 'left' ? -220 : 220;
       current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
@@ -114,29 +125,39 @@ export const ProductCarousel: React.FC = () => {
               key={product.id} 
               // pointer-events-none hanya aktif jika benar-benar sedang di-drag (gerak > 5px)
               // ini memungkinkan klik tombol jika user hanya melakukan klik tanpa geser
-              className={`snap-center shrink-0 w-[85vw] sm:w-[350px] md:w-[380px] ${isDragging ? 'pointer-events-none' : ''}`}
+              className={`snap-center shrink-0 w-[45vw] sm:w-[180px] md:w-[220px] ${isDragging ? 'pointer-events-none' : ''}`}
             >
               <div className="h-full">
-                <ProductCard product={product} />
+                <ProductCard 
+                  product={product} 
+                  onClick={handleProductClick} 
+                />
               </div>
             </div>
           ))}
           
           {/* "See All" Card at the end */}
-          <div className={`snap-center shrink-0 w-[85vw] sm:w-[350px] md:w-[380px] flex ${isDragging ? 'pointer-events-none' : ''}`}>
+          <div className={`snap-center shrink-0 w-[45vw] sm:w-[180px] md:w-[220px] flex ${isDragging ? 'pointer-events-none' : ''}`}>
             <Link 
               to="/products"
-              className="w-full bg-slate-900/50 border border-slate-800 border-dashed rounded-2xl flex flex-col items-center justify-center text-slate-400 hover:text-brand-accent hover:border-brand-accent hover:bg-slate-900 transition-all group"
+              className="w-full bg-slate-900/50 border border-slate-800 border-dashed rounded-xl flex flex-col items-center justify-center text-slate-400 hover:text-brand-accent hover:border-brand-accent hover:bg-slate-900 transition-all group p-4"
               draggable="false"
             >
-              <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 group-hover:bg-brand-accent/10 transition-colors">
-                <ArrowRight className="w-8 h-8 group-hover:translate-x-1 transition-transform" />
+              <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mb-2 group-hover:bg-brand-accent/10 transition-colors">
+                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </div>
-              <span className="text-lg font-bold">Lihat Semua Produk</span>
+              <span className="text-sm font-bold text-center">Lihat Semua</span>
             </Link>
           </div>
         </div>
       </div>
+
+      {/* Product Detail Modal */}
+      <ProductDetailModal 
+        product={selectedProduct} 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };

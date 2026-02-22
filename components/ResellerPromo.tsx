@@ -17,15 +17,15 @@ export const ResellerPromo: React.FC = () => {
             
             {/* Left Content */}
             <div className="flex-1 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/20 text-white text-xs font-bold uppercase tracking-wider mb-3 backdrop-blur-sm border border-white/20">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/20 text-white text-xs font-bold uppercase tracking-wider mb-4 backdrop-blur-sm border border-white/20 shadow-lg">
                 <Crown size={14} className="text-yellow-200" />
                 Open Reseller
               </div>
-              <h2 className="text-2xl md:text-4xl font-bold text-white mb-2 leading-tight">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight font-heading drop-shadow-md">
                 Mau Harga Lebih Murah? <br className="hidden md:block" />
                 <span className="text-yellow-100">Gabung Mitra MKA Store Aja!</span>
               </h2>
-              <p className="text-white/90 text-sm md:text-base max-w-xl">
+              <p className="text-white/90 text-sm md:text-lg max-w-xl leading-relaxed font-medium">
                 Dapatkan akses harga modal termurah, grup support eksklusif, dan prioritas layanan. Cocok untuk pelajar, mahasiswa, atau sampingan pekerja.
               </p>
             </div>
@@ -34,11 +34,11 @@ export const ResellerPromo: React.FC = () => {
             <div className="flex-shrink-0">
               <Link 
                 to="/reseller"
-                className="flex items-center gap-2 bg-white text-yellow-700 hover:text-yellow-800 px-6 py-3 md:px-8 md:py-4 rounded-full font-bold shadow-xl transition-transform transform hover:-translate-y-1 active:scale-95"
+                className="flex items-center gap-2 bg-white text-yellow-700 hover:text-yellow-800 px-8 py-4 rounded-full font-bold shadow-xl shadow-yellow-900/20 transition-all transform hover:-translate-y-1 hover:shadow-2xl active:scale-95 text-lg"
               >
-                <TrendingUp size={20} />
-                Cek Keuntungan Reseller
-                <ArrowRight size={20} />
+                <TrendingUp size={24} />
+                Gabung Reseller Sekarang
+                <ArrowRight size={24} />
               </Link>
             </div>
             
