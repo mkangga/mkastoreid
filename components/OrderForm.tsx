@@ -642,7 +642,7 @@ export const OrderForm: React.FC = () => {
             <button
               type="submit"
               disabled={state.isSubmitting}
-              className="w-full bg-brand-primary hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-brand-primary/25 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed group"
+              className="hidden md:flex w-full bg-brand-primary hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-brand-primary/25 transition-all transform hover:-translate-y-1 active:scale-95 items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed group"
             >
               <Send size={20} className="group-hover:translate-x-1 transition-transform" />
               {state.isSubmitting ? 'Memproses...' : 'Beli Sekarang – Proses Instan'}
