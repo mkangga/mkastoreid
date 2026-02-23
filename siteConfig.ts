@@ -40,8 +40,8 @@ export const features: Feature[] = [
   },
   {
     id: 2,
-    title: "Proses Otomatis",
-    description: "Layanan PPOB diproses otomatis 24 jam. Akun premium diproses cepat saat jam kerja.",
+    title: "Proses Cepat",
+    description: "Semua pesanan diproses manual oleh Admin dengan cepat dan aman.",
     icon: 'zap'
   },
   {
@@ -63,7 +63,7 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "Berapa lama proses pengerjaannya?",
-    answer: "Akun premium: 5-10 menit saat jam kerja. PPOB (Pulsa, Token, dll): Otomatis detik itu juga (24 Jam)."
+    answer: "Semua pesanan diproses manual oleh Admin. Estimasi 5-10 menit saat jam kerja (08.00 - 22.00 WIB)."
   },
   {
     question: "Apakah bisa diperpanjang (Renewal)?",

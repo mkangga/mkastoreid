@@ -3,13 +3,15 @@ import { ShoppingCart } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { Product } from '../types';
 import { useNavigate } from 'react-router-dom';
+import { ImageWithSkeleton } from './ImageWithSkeleton';
 
 interface ProductCardProps {
   product: Product;
   onClick?: (product: Product) => void;
+  onAddToCart?: (product: Product) => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, onAddToCart }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -18,6 +20,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
     } else {
       // Fallback navigation if no onClick handler provided
       navigate(`/order?product=${encodeURIComponent(product.name)}`);
+    }
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onAddToCart) {
+      onAddToCart(product);
     }
   };
 
@@ -44,7 +53,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
         <div className="absolute inset-0 bg-brand-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
 
         {product.imageUrl ? (
-          <img
+          <ImageWithSkeleton
             src={product.imageUrl}
             alt={product.name}
             className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl"
@@ -74,12 +83,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
             <span className="text-sm font-bold text-brand-accent">{product.priceStart}</span>
           </div>
           
-          <button
-            className="bg-brand-primary hover:bg-brand-primaryHover text-white p-2.5 rounded-xl transition-all hover:shadow-lg hover:shadow-brand-primary/25 active:scale-95 group-hover:translate-x-1"
-            aria-label="Beli"
-          >
-            <ShoppingCart size={16} strokeWidth={2.5} />
-          </button>
+          <div className="flex gap-2">
+            {onAddToCart && (
+              <button
+                onClick={handleAddToCart}
+                className="bg-slate-700 hover:bg-slate-600 text-white p-2.5 rounded-xl transition-all hover:shadow-lg active:scale-95"
+                aria-label="Tambah ke Keranjang"
+                title="Tambah ke Keranjang"
+              >
+                <ShoppingCart size={16} strokeWidth={2.5} />
+              </button>
+            )}
+            <button
+              className="bg-brand-primary hover:bg-brand-primaryHover text-white p-2.5 rounded-xl transition-all hover:shadow-lg hover:shadow-brand-primary/25 active:scale-95 group-hover:translate-x-1"
+              aria-label="Beli"
+              title="Beli Sekarang"
+            >
+              <LucideIcons.ArrowRight size={16} strokeWidth={2.5} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

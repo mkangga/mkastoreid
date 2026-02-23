@@ -2,6 +2,7 @@
 import React from 'react';
 import { ShieldCheck, MessageSquare, Clock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { config } from '../siteConfig';
+import { PageTransition } from '../components/PageTransition';
 
 export const WarrantyPage: React.FC = () => {
   const handleClaim = () => {
@@ -10,7 +11,7 @@ export const WarrantyPage: React.FC = () => {
   };
 
   return (
-    <div className="page-enter pt-24 pb-20 min-h-screen">
+    <PageTransition className="pt-24 pb-20 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -79,7 +80,7 @@ export const WarrantyPage: React.FC = () => {
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-brand-primary shrink-0 mt-0.5" />
-              <span className="text-slate-300">Komplain PPOB maksimal <strong>1x24 Jam</strong> setelah transaksi dinyatakan sukses oleh sistem.</span>
+              <span className="text-slate-300">Komplain PPOB maksimal <strong>1x24 Jam</strong> setelah transaksi dinyatakan sukses.</span>
             </li>
           </ul>
         </div>
@@ -99,6 +100,6 @@ export const WarrantyPage: React.FC = () => {
         </div>
 
       </div>
-    </div>
+    </PageTransition>
   );
 };

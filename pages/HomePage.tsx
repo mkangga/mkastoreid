@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Hero } from '../components/Hero';
+import { HeroCarousel } from '../components/HeroCarousel';
 import { Features } from '../components/Features';
 import { ProductCarousel } from '../components/ProductCarousel';
 import { PriceComparison } from '../components/PriceComparison';
@@ -8,11 +8,12 @@ import { Bundles } from '../components/Bundles';
 import { Testimonials } from '../components/Testimonials';
 import { QuickAccess } from '../components/QuickAccess';
 import { ResellerPromo } from '../components/ResellerPromo';
+import { PageTransition } from '../components/PageTransition';
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="page-enter">
-      <Hero />
+    <PageTransition>
+      <HeroCarousel />
       <QuickAccess />
       <ProductCarousel />
       {/* ResellerPromo ditempatkan setelah ProductCarousel agar user yang merasa harga normal masih mahal langsung melihat opsi reseller */}
@@ -21,6 +22,6 @@ export const HomePage: React.FC = () => {
       <PriceComparison />
       <Testimonials />
       <Features />
-    </div>
+    </PageTransition>
   );
 };

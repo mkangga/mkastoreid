@@ -2,10 +2,11 @@
 import React from 'react';
 import { MessageCircle, Clock, CheckCircle2, AlertCircle, Moon, Sun } from 'lucide-react';
 import { config } from '../siteConfig';
+import { PageTransition } from '../components/PageTransition';
 
 export const ContactPage: React.FC = () => {
   return (
-    <div className="page-enter pt-32 pb-20 min-h-screen">
+    <PageTransition className="pt-32 pb-20 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Hubungi Kami</h1>
@@ -93,6 +94,6 @@ export const ContactPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 };

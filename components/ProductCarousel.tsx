@@ -131,6 +131,7 @@ export const ProductCarousel: React.FC = () => {
                 <ProductCard 
                   product={product} 
                   onClick={handleProductClick} 
+                  onAddToCart={handleProductClick}
                 />
               </div>
             </div>

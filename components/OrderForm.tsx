@@ -13,6 +13,7 @@ type FormState = {
   formData: Record<string, string>;
   errors: Record<string, string>;
   isSubmitting: boolean;
+  quantity: number;
 };
 
 type FormAction =
@@ -23,7 +24,8 @@ type FormAction =
   | { type: 'UPDATE_FIELD'; field: string; value: string }
   | { type: 'SET_ERRORS'; payload: Record<string, string> }
   | { type: 'SET_SUBMITTING'; payload: boolean }
-  | { type: 'RESET_FORM_DATA' };
+  | { type: 'RESET_FORM_DATA' }
+  | { type: 'SET_QUANTITY'; payload: number };
 
 const initialState: FormState = {
   productName: '',
@@ -33,12 +35,13 @@ const initialState: FormState = {
   formData: {},
   errors: {},
   isSubmitting: false,
+  quantity: 1,
 };
 
 const formReducer = (state: FormState, action: FormAction): FormState => {
   switch (action.type) {
     case 'SET_PRODUCT':
-      return { ...state, productName: action.payload, formData: {}, errors: {} };
+      return { ...state, productName: action.payload, formData: {}, errors: {}, quantity: 1 };
     case 'SET_NAME':
       return { ...state, name: action.payload };
     case 'SET_DURATION':
@@ -57,6 +60,8 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
       return { ...state, isSubmitting: action.payload };
     case 'RESET_FORM_DATA':
       return { ...state, formData: {}, errors: {} };
+    case 'SET_QUANTITY':
+      return { ...state, quantity: Math.max(1, action.payload) };
     default:
       return state;
   }
@@ -68,12 +73,17 @@ export const OrderForm: React.FC = () => {
   const [state, dispatch] = useReducer(formReducer, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Initialize product from URL
+  // Initialize from URL
   useEffect(() => {
     if (productFromUrl) {
       dispatch({ type: 'SET_PRODUCT', payload: productFromUrl });
     }
-  }, [productFromUrl]);
+    
+    const quantityFromUrl = searchParams.get('quantity');
+    if (quantityFromUrl) {
+      dispatch({ type: 'SET_QUANTITY', payload: parseInt(quantityFromUrl, 10) || 1 });
+    }
+  }, [productFromUrl, searchParams]);
 
   // Determine Product Category & ID
   const selectedProduct = products.find(p => p.name === state.productName);
@@ -131,6 +141,12 @@ export const OrderForm: React.FC = () => {
         if (!formData.nominal) errors.nominal = 'Nominal convert wajib diisi.';
         break;
 
+      case 'pendidikan':
+        if (!formData.institutionName) errors.institutionName = 'Nama Institusi wajib diisi.';
+        if (!formData.studentId) errors.studentId = 'ID Siswa/Tagihan wajib diisi.';
+        if (!formData.nominal) errors.nominal = 'Nominal tagihan wajib diisi.';
+        break;
+
       // Add more specific validations as needed
     }
 
@@ -154,7 +170,7 @@ export const OrderForm: React.FC = () => {
     const finalName = state.name.trim() || 'Pembeli';
     const finalProduct = state.productName || 'Belum dipilih';
     
-    let message = `Halo kak, saya ${finalName}.\n\nMau order *${finalProduct}*.\n\nDetail:`;
+    let message = `Halo kak, saya ${finalName}.\n\nMau order *${finalProduct}* (x${state.quantity}).\n\nDetail:`;
 
     // ... Message Construction Logic (Same as before but using state.formData) ...
     switch (productId) {
@@ -184,7 +200,7 @@ export const OrderForm: React.FC = () => {
         message += `\n• Platform: ${state.formData.platformName}\n• Bank VA: ${angsuranBank}\n• No. Kontrak: ${state.formData.contractNumber}\n• Nama Pelanggan: ${state.formData.contractName}\n• Nominal: ${state.formData.nominal}`;
         break;
       case 'pendidikan':
-        message += `\n• ID Siswa/Tagihan: ${state.formData.studentId}\n• Nama Siswa: ${state.formData.studentName}\n• Nominal: ${state.formData.nominal}`;
+        message += `\n• Institusi: ${state.formData.institutionName}\n• ID Siswa/Tagihan: ${state.formData.studentId}\n• Nama Siswa: ${state.formData.studentName}\n• Nominal: ${state.formData.nominal}`;
         break;
       case 'va':
         const vaBank = state.formData.bankVA === 'Lainnya' ? state.formData.customBank : state.formData.bankVA;
@@ -215,7 +231,7 @@ export const OrderForm: React.FC = () => {
         if (isPPOB) {
            message += `\n• ID/Nomor: ${state.formData.genericTarget}`;
         } else {
-           message += `\n• Durasi: ${state.duration}`;
+           message += `\n• Durasi: ${state.formData.duration || state.duration || '1 Bulan'}`;
         }
     }
 
@@ -417,7 +433,8 @@ export const OrderForm: React.FC = () => {
       case 'pendidikan':
         return (
           <>
-            {renderInput('Nomor Tagihan / ID Siswa', 'studentId', 'number', 'ID Siswa / Mahasiswa')}
+            {renderInput('Nama Institusi / Sekolah', 'institutionName', 'text', 'Contoh: Universitas Indonesia, SMA 1...', true)}
+            {renderInput('Nomor Tagihan / ID Siswa', 'studentId', 'number', 'ID Siswa / Mahasiswa', true)}
             {renderInput('Nama Terdaftar', 'studentName', 'text', 'Nama Siswa / Mahasiswa')}
             {renderInput('Nominal Tagihan', 'nominal', 'number', 'Jumlah Tagihan', true, '*Biaya Admin Flat Rp 2.000')}
           </>
@@ -531,6 +548,82 @@ export const OrderForm: React.FC = () => {
     }
   };
 
+  // --- Price Calculation Logic ---
+  const calculateEstimatedPrice = () => {
+    let price = 0;
+    const { formData } = state;
+
+    // Helper to parse price string like "10.000 (Harga: Rp 12.000)" -> 12000
+    const parsePrice = (label: string) => {
+      const match = label.match(/Rp\s?([\d.]+)/);
+      return match ? parseInt(match[1].replace(/\./g, ''), 10) : 0;
+    };
+
+    switch (productId) {
+      case 'pulsa':
+        if (formData.nominal) {
+          // Find the label for the selected nominal
+          const options = [
+            { value: '5000', label: '5.000 (Harga: Rp 7.000)' },
+            { value: '10000', label: '10.000 (Harga: Rp 12.000)' },
+            { value: '15000', label: '15.000 (Harga: Rp 17.000)' },
+            { value: '20000', label: '20.000 (Harga: Rp 22.000)' },
+            { value: '25000', label: '25.000 (Harga: Rp 27.000)' },
+            { value: '30000', label: '30.000 (Harga: Rp 32.000)' },
+            { value: '50000', label: '50.000 (Harga: Rp 52.000)' },
+            { value: '100000', label: '100.000 (Harga: Rp 102.000)' },
+          ];
+          const selected = options.find(o => o.value === formData.nominal);
+          if (selected) price = parsePrice(selected.label);
+        }
+        break;
+
+      case 'pln':
+        if (formData.nominal && formData.nominal !== 'Request') {
+           const options = [
+              { value: '20000', label: '20.000 (Biaya Admin: Rp 2.000)' },
+              { value: '50000', label: '50.000 (Biaya Admin: Rp 2.000)' },
+              { value: '100000', label: '100.000 (Biaya Admin: Rp 2.000)' },
+           ];
+           const selected = options.find(o => o.value === formData.nominal);
+           // Token PLN usually is Nominal + Admin. 
+           // If label says "Biaya Admin: Rp 2.000", total is Nominal + 2000
+           if (selected) {
+             price = parseInt(formData.nominal) + 2000;
+           }
+        } else if (formData.nominal === 'Request' && formData.customNominal) {
+             price = parseInt(formData.customNominal) + 2000;
+        }
+        break;
+
+      case 'convert':
+      case 'transfer':
+      case 'angsuran':
+      case 'pendidikan':
+      case 'va':
+      case 'bpjs':
+      case 'internet-tv':
+      case 'ewallet':
+         if (formData.nominal) {
+           // Admin fee is usually 2000 or 0 depending on product
+           // Let's assume 2000 for most based on siteConfig
+           const nominal = parseInt(formData.nominal);
+           const adminFee = productId === 'ewallet' ? 0 : 2000; 
+           if (!isNaN(nominal)) price = nominal + adminFee;
+         }
+         break;
+      
+      default:
+        // For premium apps, price is in description/priceStart, hard to parse dynamically without mapping
+        // We can use a simple mapping if needed, or just show "Hubungi Admin"
+        break;
+    }
+
+    return price * state.quantity;
+  };
+
+  const estimatedPrice = calculateEstimatedPrice();
+
   return (
     <section className="bg-slate-900 border-t border-slate-800 rounded-3xl mx-auto max-w-4xl overflow-hidden shadow-2xl relative">
       <div className="p-6 md:p-10 relative">
@@ -601,6 +694,41 @@ export const OrderForm: React.FC = () => {
               {/* DYNAMIC FIELDS */}
               {renderSpecificFields()}
 
+              {/* Quantity Selector */}
+              <div className="border-t border-slate-800 pt-6">
+                <label className="block text-sm font-medium text-slate-400 mb-3">
+                  Jumlah Pembelian
+                </label>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-1 border border-slate-700/50 w-fit">
+                    <button
+                      type="button"
+                      onClick={() => dispatch({ type: 'SET_QUANTITY', payload: state.quantity - 1 })}
+                      disabled={state.quantity <= 1}
+                      className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      -
+                    </button>
+                    <span className="text-white font-bold w-8 text-center">{state.quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => dispatch({ type: 'SET_QUANTITY', payload: state.quantity + 1 })}
+                      className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Price Estimator */}
+              {estimatedPrice > 0 && (
+                <div className="bg-brand-primary/10 border border-brand-primary/20 rounded-xl p-4 flex items-center justify-between">
+                  <span className="text-brand-primary font-medium text-sm">Estimasi Total</span>
+                  <span className="text-xl font-bold text-white">Rp {estimatedPrice.toLocaleString('id-ID')}</span>
+                </div>
+              )}
+
               {/* Metode Pembayaran (Always Visible) */}
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-2 flex items-center gap-2">
@@ -645,7 +773,7 @@ export const OrderForm: React.FC = () => {
               className="hidden md:flex w-full bg-brand-primary hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-brand-primary/25 transition-all transform hover:-translate-y-1 active:scale-95 items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed group"
             >
               <Send size={20} className="group-hover:translate-x-1 transition-transform" />
-              {state.isSubmitting ? 'Memproses...' : 'Beli Sekarang – Proses Instan'}
+              {state.isSubmitting ? 'Memproses...' : 'Beli Sekarang – Hubungi Admin'}
             </button>
             <p className="text-center text-slate-500 text-sm mt-4 flex items-center justify-center gap-2">
               <CheckCircle2 size={16} className="text-green-500" />

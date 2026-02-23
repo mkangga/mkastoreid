@@ -2,6 +2,7 @@
 import React from 'react';
 import { TrendingUp, Users, Wallet, ShieldCheck, MessageCircle } from 'lucide-react';
 import { config } from '../siteConfig';
+import { PageTransition } from '../components/PageTransition';
 
 export const ResellerPage: React.FC = () => {
   const handleJoin = () => {
@@ -33,7 +34,7 @@ export const ResellerPage: React.FC = () => {
   ];
 
   return (
-    <div className="page-enter pt-32 pb-20 min-h-screen">
+    <PageTransition className="pt-32 pb-20 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Hero Reseller */}
@@ -116,6 +117,6 @@ export const ResellerPage: React.FC = () => {
         </div>
 
       </div>
-    </div>
+    </PageTransition>
   );
 };

@@ -1,11 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Home, Phone, Grid, CreditCard, HelpCircle } from 'lucide-react';
+import { ShoppingBag, Home, Phone, Grid, ShoppingCart, CreditCard } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import { config } from '../siteConfig';
+import { useCart } from '../context/CartContext';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { totalItems } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,8 +100,16 @@ export const Header: React.FC = () => {
               </NavLink>
             </nav>
               
-            {/* CTA Button */}
-            <div className="hidden md:block">
+            {/* CTA Button & Cart */}
+            <div className="hidden md:flex items-center gap-4">
+              <Link to="/cart" className="relative p-2 text-slate-400 hover:text-white transition-colors">
+                <ShoppingCart size={24} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-lg">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
               <a 
                 href={`https://wa.me/${config.whatsappNumber}`}
                 target="_blank"
@@ -110,8 +120,16 @@ export const Header: React.FC = () => {
               </a>
             </div>
 
-            {/* Mobile Status Dot (Visible only on mobile header) */}
-            <div className="md:hidden flex items-center">
+            {/* Mobile Status Dot & Cart (Visible only on mobile header) */}
+            <div className="md:hidden flex items-center gap-4">
+               <Link to="/cart" className="relative text-slate-400 hover:text-white transition-colors">
+                <ShoppingCart size={24} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full shadow-lg">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
                <span className={`flex h-3 w-3 relative`}>
                 {config.status.isOnline && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>}
                 <span className={`relative inline-flex rounded-full h-3 w-3 ${config.status.isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
@@ -132,13 +150,20 @@ export const Header: React.FC = () => {
             <Grid size={22} strokeWidth={1.5} />
             <span className="text-[10px] font-medium mt-1">Produk</span>
           </NavLink>
-           <NavLink to="/payment" className={bottomNavClass}>
+           <NavLink to="/cart" className={bottomNavClass}>
+            <div className="relative">
+              <ShoppingCart size={22} strokeWidth={1.5} />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] font-bold w-3.5 h-3.5 flex items-center justify-center rounded-full">
+                  {totalItems}
+                </span>
+              )}
+            </div>
+            <span className="text-[10px] font-medium mt-1">Keranjang</span>
+          </NavLink>
+          <NavLink to="/payment" className={bottomNavClass}>
             <CreditCard size={22} strokeWidth={1.5} />
             <span className="text-[10px] font-medium mt-1">Bayar</span>
-          </NavLink>
-          <NavLink to="/faq" className={bottomNavClass}>
-            <HelpCircle size={22} strokeWidth={1.5} />
-            <span className="text-[10px] font-medium mt-1">FAQ</span>
           </NavLink>
           <NavLink to="/contact" className={bottomNavClass}>
             <Phone size={22} strokeWidth={1.5} />

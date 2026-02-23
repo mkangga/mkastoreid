@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Wallet, Building2, Download, Copy, Check, Info } from 'lucide-react';
+import { PageTransition } from '../components/PageTransition';
 
 const wallets = [
   { id: 'dana', name: 'DANA', number: '085155043557' },
@@ -34,7 +35,7 @@ export const PaymentPage: React.FC = () => {
   };
 
   return (
-    <div className="page-enter pt-24 min-h-screen pb-12">
+    <PageTransition className="pt-24 min-h-screen pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Metode Pembayaran</h1>
@@ -157,6 +158,6 @@ export const PaymentPage: React.FC = () => {
         </div>
 
       </div>
-    </div>
+    </PageTransition>
   );
 };

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Search, Send, Loader2 } from 'lucide-react';
 import { config } from '../siteConfig';
+import { PageTransition } from '../components/PageTransition';
 
 export const StatusPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -23,7 +24,7 @@ export const StatusPage: React.FC = () => {
   };
 
   return (
-    <div className="page-enter pt-32 pb-20 min-h-screen flex flex-col items-center justify-center">
+    <PageTransition className="pt-32 pb-20 min-h-screen flex flex-col items-center justify-center">
       <div className="w-full max-w-md px-4">
         
         <div className="text-center mb-8">
@@ -83,12 +84,12 @@ export const StatusPage: React.FC = () => {
 
           <div className="mt-6 pt-6 border-t border-slate-800/50 text-center">
              <p className="text-xs text-slate-500">
-               Sistem kami akan mengarahkan anda ke WhatsApp Admin dengan format chat otomatis.
+               Sistem kami akan mengarahkan anda ke WhatsApp Admin dengan format pesan yang sudah disiapkan.
              </p>
           </div>
         </div>
 
       </div>
-    </div>
+    </PageTransition>
   );
 };

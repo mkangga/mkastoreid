@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ProductCard } from './ProductCard';
 import { products } from '../siteConfig';
 import { ArrowRight, Search, PackageX } from 'lucide-react';
@@ -20,6 +20,9 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  
+  const searchRef = useRef<HTMLDivElement>(null);
 
   // Jika limit ada (misal di homepage), kita tidak menampilkan filter
   // Jika limit tidak ada (di halaman produk), kita tampilkan filter
@@ -55,8 +58,24 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
     setFilteredProducts(result);
   }, [searchQuery, selectedCategory]);
 
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   // Jika ada limit, potong array hasil filter (biasanya di homepage pakai data raw products sih, tapi biar konsisten)
   const displayedProducts = limit ? products.slice(0, limit) : filteredProducts;
+
+  // Search Suggestions Logic
+  const suggestions = searchQuery.length > 0 
+    ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5)
+    : [];
 
   return (
     <section className={`bg-brand-dark relative min-h-[60vh] ${showTitle ? 'py-16 md:py-24' : 'pt-4 pb-16'}`}>
@@ -69,7 +88,7 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
               {limit ? 'Produk Terpopuler' : 'Katalog Produk Lengkap'}
             </h2>
             <p className="text-brand-muted max-w-2xl mx-auto text-lg">
-              Temukan akun premium, pulsa, token listrik, dan top up game dengan harga terbaik dan proses otomatis.
+              Temukan akun premium, pulsa, token listrik, dan top up game dengan harga terbaik dan proses cepat.
             </p>
           </div>
         )}
@@ -78,8 +97,8 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
         {showFilters && (
           <div className="mb-12 space-y-8">
             
-            {/* Search Bar */}
-            <div className="relative max-w-2xl mx-auto group">
+            {/* Search Bar with Live Suggestions */}
+            <div className="relative max-w-2xl mx-auto group" ref={searchRef}>
               <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-slate-500 group-focus-within:text-brand-primary transition-colors" />
               </div>
@@ -87,9 +106,41 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
                 type="text"
                 placeholder="Cari produk (contoh: Netflix, Pulsa, Token PLN, Mobile Legends)..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
                 className="w-full bg-brand-surface border border-brand-border rounded-2xl py-4 pl-14 pr-6 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all shadow-xl shadow-black/20"
               />
+              
+              {/* Live Suggestions Dropdown */}
+              {showSuggestions && searchQuery && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-brand-surface border border-brand-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                  {suggestions.map((product) => (
+                    <div 
+                      key={product.id}
+                      onClick={() => {
+                        setSearchQuery(product.name);
+                        setShowSuggestions(false);
+                      }}
+                      className="px-5 py-3 hover:bg-slate-800 cursor-pointer flex items-center justify-between group transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded bg-slate-800 flex items-center justify-center overflow-hidden">
+                          {product.imageUrl ? (
+                            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <Search size={14} className="text-slate-500" />
+                          )}
+                        </div>
+                        <span className="text-slate-300 group-hover:text-white font-medium">{product.name}</span>
+                      </div>
+                      <span className="text-xs text-brand-muted">{product.category}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Category Pills */}
@@ -113,12 +164,13 @@ export const ProductList: React.FC<ProductListProps> = ({ limit, showTitle = tru
 
         {/* --- Product Grid --- */}
         {displayedProducts.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
             {displayedProducts.map((product) => (
               <ProductCard 
                 key={product.id} 
                 product={product} 
                 onClick={handleProductClick}
+                onAddToCart={handleProductClick}
               />
             ))}
           </div>

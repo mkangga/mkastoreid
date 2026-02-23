@@ -11,6 +11,14 @@ export interface Product {
   category: string;
 }
 
+export interface CartItem {
+  id: string; // Unique ID for the cart item instance
+  product: Product;
+  quantity: number;
+  details: Record<string, string>;
+  totalPrice: number;
+}
+
 export interface Feature {
   id: number;
   title: string;
