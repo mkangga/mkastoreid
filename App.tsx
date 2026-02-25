@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -52,8 +52,7 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    // Menggunakan HashRouter agar reload halaman tidak error di static hosting
-    <HashRouter>
+    <BrowserRouter>
       <CartProvider>
         <div className="min-h-screen bg-brand-dark flex flex-col font-sans">
           <ScrollToTop />
@@ -82,7 +81,7 @@ function App() {
           </a>
         </div>
       </CartProvider>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
