@@ -6,14 +6,14 @@ const comparisons = [
   {
     name: "Netflix Premium (4K)",
     officialPrice: "Rp 186.000",
-    ourPrice: "Rp 25.000",
-    savings: "Rp 161.000",
+    ourPrice: "Rp 40.000",
+    savings: "Rp 146.000",
   },
   {
     name: "Spotify Premium",
     officialPrice: "Rp 54.990",
-    ourPrice: "Rp 15.000",
-    savings: "Rp 39.990",
+    ourPrice: "Rp 20.000",
+    savings: "Rp 34.990",
   },
   {
     name: "YouTube Premium",
@@ -22,10 +22,10 @@ const comparisons = [
     savings: "Rp 49.000",
   },
   {
-    name: "Disney+ Hotstar",
-    officialPrice: "Rp 39.000",
-    ourPrice: "Rp 20.000",
-    savings: "Rp 19.000",
+    name: "Canva Pro (1 Tahun)",
+    officialPrice: "Rp 769.000",
+    ourPrice: "Rp 25.000",
+    savings: "Rp 744.000",
   },
 ];
 

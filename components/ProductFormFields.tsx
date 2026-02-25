@@ -287,10 +287,51 @@ export const ProductFormFields: React.FC<ProductFormFieldsProps> = ({ productId,
       if (isPPOB) {
          return renderInput('Nomor Tujuan / ID', 'genericTarget', 'text', 'Masukkan Nomor / ID', true);
       } else {
+         let options: {value: string, label: string}[] = [];
+
+         switch (productId) {
+           case 'netflix':
+             options = [
+               { value: 'Netflix Private (1 Akun)', label: 'Private (1 Akun) - Rp 120.000/bln' },
+               { value: 'Netflix Sharing (1 Profile)', label: 'Sharing (1 Profile) - Rp 40.000/bln' }
+             ];
+             break;
+           case 'canva':
+             options = [
+               { value: 'Canva Edu 1 Tahun', label: 'Edu 1 Tahun - Rp 25.000' }
+             ];
+             break;
+           case 'viu':
+             options = [
+               { value: 'Viu 12 Bulan', label: '12 Bulan - Rp 15.000' }
+             ];
+             break;
+           case 'spotify':
+             options = [
+               { value: 'Spotify Family Plan', label: 'Family Plan - Rp 20.000/bln' }
+             ];
+             break;
+           case 'youtube':
+             options = [
+               { value: '1 Bulan', label: '1 Bulan - Rp 10.000' },
+               { value: '3 Bulan', label: '3 Bulan - Rp 25.000' }
+             ];
+             break;
+           default:
+             // Fallback for other non-PPOB products if any
+             options = [
+               { value: '1 Bulan', label: '1 Bulan' },
+               { value: '3 Bulan', label: '3 Bulan' },
+               { value: '6 Bulan', label: '6 Bulan' },
+               { value: '1 Tahun', label: '1 Tahun' }
+             ];
+             break;
+         }
+
          return (
           <div className="mb-4">
             <label className="block text-sm font-medium text-slate-400 mb-2 flex items-center gap-2">
-              <Clock size={16} /> Durasi Langganan <span className="text-red-500">*</span>
+              <Clock size={16} /> Varian / Durasi <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <select
@@ -302,12 +343,10 @@ export const ProductFormFields: React.FC<ProductFormFieldsProps> = ({ productId,
                     : 'border-slate-700 focus:ring-brand-primary'
                 }`}
               >
-                <option value="" disabled>-- Pilih Durasi --</option>
-                <option value="1 Bulan">1 Bulan</option>
-                <option value="2 Bulan">2 Bulan</option>
-                <option value="3 Bulan">3 Bulan</option>
-                <option value="6 Bulan">6 Bulan</option>
-                <option value="1 Tahun">1 Tahun</option>
+                <option value="" disabled>-- Pilih Varian --</option>
+                {options.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>

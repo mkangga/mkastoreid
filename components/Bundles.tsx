@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Package, Plus, Sparkles } from 'lucide-react';
 import { config } from '../siteConfig';
@@ -6,40 +5,40 @@ import { config } from '../siteConfig';
 const bundles = [
   {
     title: "Paket Nonton Puas",
-    description: "Hiburan lengkap tanpa batas untuk akhir pekanmu.",
+    description: "Netflix Sharing 1 Profile + Viu 12 Bulan.",
     items: [
       { name: "Netflix Premium", img: "https://i.imgur.com/fEegJrC.png" },
-      { name: "Disney+ Hotstar", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1280px-Disney%2B_logo.svg.png?20250509231455" }
+      { name: "Viu Premium", img: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Viu_logo.svg" }
     ],
-    oldPrice: "Rp 45.000",
-    newPrice: "Rp 40.000",
-    save: "Rp 5.000",
-    color: "from-red-500/20 to-blue-600/20",
-    borderColor: "hover:border-red-500/50"
+    oldPrice: "Rp 55.000",
+    newPrice: "Rp 52.000",
+    save: "Rp 3.000",
+    color: "from-red-500/20 to-yellow-500/20",
+    borderColor: "hover:border-yellow-500/50"
   },
   {
     title: "Paket Produktif",
-    description: "Kerja sambil denger musik tanpa gangguan iklan.",
+    description: "Canva Pro Edu 1 Tahun + Spotify 1 Bulan.",
     items: [
       { name: "Canva Pro", img: "https://public.canva.site/logo/media/dfb96cc174513093cd6ed61489ccb750.svg" },
       { name: "Spotify Premium", img: "https://i.imgur.com/1b57Ych.png" }
     ],
-    oldPrice: "Rp 25.000",
-    newPrice: "Rp 22.000",
+    oldPrice: "Rp 45.000",
+    newPrice: "Rp 42.000",
     save: "Rp 3.000",
     color: "from-cyan-500/20 to-green-500/20",
     borderColor: "hover:border-green-500/50"
   },
   {
     title: "Paket YouTube Mania",
-    description: "Bebas iklan di semua layanan YouTube.",
+    description: "YouTube Premium + YouTube Music (1 Bulan).",
     items: [
       { name: "YouTube Premium", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/YouTube_Premium_logo.svg/960px-YouTube_Premium_logo.svg.png?20180923014634" },
       { name: "YouTube Music", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/2048px-Youtube_Music_icon.svg.png" }
     ],
-    oldPrice: "Rp 20.000",
-    newPrice: "Rp 10.000", // Asumsi YT prem include Music
-    save: "Gratis Music",
+    oldPrice: "Rp 15.000",
+    newPrice: "Rp 10.000", 
+    save: "Hemat",
     color: "from-red-600/20 to-red-900/20",
     borderColor: "hover:border-red-500/50"
   }

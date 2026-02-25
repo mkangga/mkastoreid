@@ -19,6 +19,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [addedToCart, setAddedToCart] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   // Reset form when modal opens
   useEffect(() => {
@@ -27,6 +28,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
       setFormData({});
       setErrors({});
       setAddedToCart(false);
+      setQuantity(1);
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -167,26 +169,51 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
       case 'ewallet':
          if (formData.nominal) {
            const nominal = parseInt(formData.nominal);
-           const adminFee = product.id === 'ewallet' ? 0 : 2000; 
+           const adminFee = 2000; 
            if (!isNaN(nominal)) price = nominal + adminFee;
          }
          break;
       
       default:
-        // For premium apps, try to parse priceStart and multiply by duration
-        if (!['PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan'].includes(product.category) && product.priceStart) {
-          const basePriceMatch = product.priceStart.match(/Rp\s?([\d.]+)/);
-          if (basePriceMatch) {
-            const basePrice = parseInt(basePriceMatch[1].replace(/\./g, ''), 10);
-            let multiplier = 1;
-            const duration = formData.duration || '1 Bulan';
-            if (duration === '2 Bulan') multiplier = 2;
-            else if (duration === '3 Bulan') multiplier = 3;
-            else if (duration === '6 Bulan') multiplier = 6;
-            else if (duration === '1 Tahun') multiplier = 12;
-            
-            price = basePrice * multiplier;
-          }
+        // For premium apps
+        if (!['PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan'].includes(product.category)) {
+           const duration = formData.duration;
+           if (duration) {
+             switch (product.id) {
+               case 'netflix':
+                 if (duration === 'Netflix Private (1 Akun)') price = 120000;
+                 else if (duration === 'Netflix Sharing (1 Profile)') price = 40000;
+                 break;
+               case 'canva':
+                 if (duration === 'Canva Edu 1 Tahun') price = 25000;
+                 break;
+               case 'viu':
+                 if (duration === 'Viu 12 Bulan') price = 15000;
+                 break;
+               case 'spotify':
+                 if (duration === 'Spotify Family Plan') price = 20000;
+                 break;
+               case 'youtube':
+                 if (duration === '1 Bulan') price = 10000;
+                 else if (duration === '3 Bulan') price = 25000;
+                 break;
+               default:
+                 // Fallback for other premium apps using multiplier logic
+                 if (product.priceStart) {
+                   const basePriceMatch = product.priceStart.match(/Rp\s?([\d.]+)/);
+                   if (basePriceMatch) {
+                     const basePrice = parseInt(basePriceMatch[1].replace(/\./g, ''), 10);
+                     let multiplier = 1;
+                     if (duration === '2 Bulan') multiplier = 2;
+                     else if (duration === '3 Bulan') multiplier = 3;
+                     else if (duration === '6 Bulan') multiplier = 6;
+                     else if (duration === '1 Tahun') multiplier = 12;
+                     price = basePrice * multiplier;
+                   }
+                 }
+                 break;
+             }
+           }
         }
         break;
     }
@@ -200,6 +227,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
     if (validateForm()) {
       const queryParams = new URLSearchParams();
       queryParams.append('product', product.name);
+      queryParams.append('quantity', quantity.toString());
       Object.entries(formData).forEach(([key, value]) => {
         if (value) queryParams.append(key, value);
       });
@@ -211,7 +239,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
 
   const handleAddToCart = () => {
     if (validateForm()) {
-      addToCart(product, formData);
+      addToCart(product, formData, quantity);
       setAddedToCart(true);
       setTimeout(() => {
         setAddedToCart(false);
@@ -291,9 +319,36 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
               
               {/* Price Estimator */}
               {estimatedPrice > 0 && (
-                <div className="mt-6 bg-brand-primary/10 border border-brand-primary/20 rounded-xl p-4 flex items-center justify-between">
-                  <span className="text-brand-primary font-medium text-sm">Estimasi Total</span>
-                  <span className="text-xl font-bold text-white">Rp {estimatedPrice.toLocaleString('id-ID')}</span>
+                <div className="mt-6 bg-brand-primary/10 border border-brand-primary/20 rounded-xl p-4 flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-brand-primary font-medium text-sm">Harga Satuan</span>
+                    <span className="text-lg font-bold text-white">Rp {estimatedPrice.toLocaleString('id-ID')}</span>
+                  </div>
+                  
+                  {/* Quantity Control */}
+                  <div className="flex items-center justify-between border-t border-brand-primary/20 pt-4">
+                    <span className="text-brand-primary font-medium text-sm">Jumlah</span>
+                    <div className="flex items-center gap-3 bg-slate-800 rounded-lg p-1 border border-slate-700">
+                      <button 
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-8 h-8 flex items-center justify-center rounded-md bg-slate-700 text-white hover:bg-slate-600 transition-colors"
+                      >
+                        -
+                      </button>
+                      <span className="text-white font-bold w-8 text-center">{quantity}</span>
+                      <button 
+                        onClick={() => setQuantity(quantity + 1)}
+                        className="w-8 h-8 flex items-center justify-center rounded-md bg-brand-primary text-white hover:bg-brand-primaryHover transition-colors"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-brand-primary/20 pt-4">
+                    <span className="text-brand-primary font-bold text-sm">Total Bayar</span>
+                    <span className="text-xl font-bold text-brand-accent">Rp {(estimatedPrice * quantity).toLocaleString('id-ID')}</span>
+                  </div>
                 </div>
               )}
             </div>

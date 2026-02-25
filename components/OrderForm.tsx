@@ -73,9 +73,32 @@ export const OrderForm: React.FC = () => {
   const [state, dispatch] = useReducer(formReducer, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Initialize from URL
+  // Load saved state from localStorage on mount
   useEffect(() => {
-    if (productFromUrl) {
+    const savedState = localStorage.getItem('orderFormState');
+    if (savedState) {
+      try {
+        const parsedState = JSON.parse(savedState);
+        // If there's a product in URL and it's different from saved state, prioritize URL
+        if (productFromUrl && parsedState.productName !== productFromUrl) {
+          dispatch({ type: 'SET_PRODUCT', payload: productFromUrl });
+        } else {
+          // Restore saved state
+          if (parsedState.productName) dispatch({ type: 'SET_PRODUCT', payload: parsedState.productName });
+          if (parsedState.name) dispatch({ type: 'SET_NAME', payload: parsedState.name });
+          if (parsedState.duration) dispatch({ type: 'SET_DURATION', payload: parsedState.duration });
+          if (parsedState.paymentMethod) dispatch({ type: 'SET_PAYMENT_METHOD', payload: parsedState.paymentMethod });
+          if (parsedState.quantity) dispatch({ type: 'SET_QUANTITY', payload: parsedState.quantity });
+          if (parsedState.formData) {
+            Object.entries(parsedState.formData).forEach(([key, value]) => {
+              dispatch({ type: 'UPDATE_FIELD', field: key, value: value as string });
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Failed to parse saved form state", e);
+      }
+    } else if (productFromUrl) {
       dispatch({ type: 'SET_PRODUCT', payload: productFromUrl });
     }
     
@@ -84,6 +107,19 @@ export const OrderForm: React.FC = () => {
       dispatch({ type: 'SET_QUANTITY', payload: parseInt(quantityFromUrl, 10) || 1 });
     }
   }, [productFromUrl, searchParams]);
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    const stateToSave = {
+      productName: state.productName,
+      name: state.name,
+      duration: state.duration,
+      paymentMethod: state.paymentMethod,
+      formData: state.formData,
+      quantity: state.quantity,
+    };
+    localStorage.setItem('orderFormState', JSON.stringify(stateToSave));
+  }, [state.productName, state.name, state.duration, state.paymentMethod, state.formData, state.quantity]);
 
   // Determine Product Category & ID
   const selectedProduct = products.find(p => p.name === state.productName);
@@ -516,6 +552,33 @@ export const OrderForm: React.FC = () => {
           </>
         );
 
+      case 'netflix':
+        return renderSelect('Varian / Durasi', 'duration', [
+          { value: 'Netflix Private (1 Akun)', label: 'Private (1 Akun) - Rp 120.000/bln' },
+          { value: 'Netflix Sharing (1 Profile)', label: 'Sharing (1 Profile) - Rp 40.000/bln' }
+        ], true);
+
+      case 'canva':
+        return renderSelect('Varian / Durasi', 'duration', [
+          { value: 'Canva Edu 1 Tahun', label: 'Edu 1 Tahun - Rp 25.000' }
+        ], true);
+
+      case 'viu':
+        return renderSelect('Varian / Durasi', 'duration', [
+          { value: 'Viu 12 Bulan', label: '12 Bulan - Rp 15.000' }
+        ], true);
+
+      case 'spotify':
+        return renderSelect('Varian / Durasi', 'duration', [
+          { value: 'Spotify Family Plan', label: 'Family Plan - Rp 20.000/bln' }
+        ], true);
+
+      case 'youtube':
+        return renderSelect('Varian / Durasi', 'duration', [
+          { value: '1 Bulan', label: '1 Bulan - Rp 10.000' },
+          { value: '3 Bulan', label: '3 Bulan - Rp 25.000' }
+        ], true);
+
       default:
         if (isPPOB) {
            return renderInput('Nomor Tujuan / ID', 'genericTarget', 'text', 'Masukkan Nomor / ID');
@@ -536,7 +599,6 @@ export const OrderForm: React.FC = () => {
                   <option value="3 Bulan">3 Bulan</option>
                   <option value="6 Bulan">6 Bulan</option>
                   <option value="1 Tahun">1 Tahun</option>
-                  <option value="Selamanya (Lifetime)">Selamanya (Lifetime)</option>
                 </select>
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -608,14 +670,40 @@ export const OrderForm: React.FC = () => {
            // Admin fee is usually 2000 or 0 depending on product
            // Let's assume 2000 for most based on siteConfig
            const nominal = parseInt(formData.nominal);
-           const adminFee = productId === 'ewallet' ? 0 : 2000; 
+           const adminFee = 2000; 
            if (!isNaN(nominal)) price = nominal + adminFee;
          }
          break;
       
       default:
-        // For premium apps, price is in description/priceStart, hard to parse dynamically without mapping
-        // We can use a simple mapping if needed, or just show "Hubungi Admin"
+        // For premium apps
+        if (!isPPOB) {
+           const duration = state.duration;
+           if (duration) {
+             switch (productId) {
+               case 'netflix':
+                 if (duration === 'Netflix Private (1 Akun)') price = 120000;
+                 else if (duration === 'Netflix Sharing (1 Profile)') price = 40000;
+                 break;
+               case 'canva':
+                 if (duration === 'Canva Edu 1 Tahun') price = 25000;
+                 break;
+               case 'viu':
+                 if (duration === 'Viu 12 Bulan') price = 15000;
+                 break;
+               case 'spotify':
+                 if (duration === 'Spotify Family Plan') price = 20000;
+                 break;
+               case 'youtube':
+                 if (duration === '1 Bulan') price = 10000;
+                 else if (duration === '3 Bulan') price = 25000;
+                 break;
+               default:
+                 // Fallback
+                 break;
+             }
+           }
+        }
         break;
     }
 

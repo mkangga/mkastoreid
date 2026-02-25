@@ -9,7 +9,7 @@ interface CartItem {
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (product: Product, formData?: Record<string, string>) => void;
+  addToCart: (product: Product, formData?: Record<string, string>, quantity?: number) => void;
   removeFromCart: (index: number) => void;
   clearCart: () => void;
   totalItems: number;
@@ -20,7 +20,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  const addToCart = (product: Product, formData?: Record<string, string>) => {
+  const addToCart = (product: Product, formData?: Record<string, string>, quantity: number = 1) => {
     setItems(prev => {
       // If formData is provided, we might want to treat it as a separate item if formData is different.
       // For simplicity, let's just add it as a new item if formData exists, or update quantity if it's identical.
@@ -31,11 +31,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (existing) {
         return prev.map(item => 
           item.product.id === product.id && JSON.stringify(item.formData) === JSON.stringify(formData)
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      return [...prev, { product, quantity: 1, formData }];
+      return [...prev, { product, quantity, formData }];
     });
   };
 

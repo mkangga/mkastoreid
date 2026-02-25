@@ -72,19 +72,45 @@ export const CartPage: React.FC = () => {
          break;
       
       default:
-        if (!['PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan'].includes(product.category) && product.priceStart) {
-          const basePriceMatch = product.priceStart.match(/Rp\s?([\d.]+)/);
-          if (basePriceMatch) {
-            const basePrice = parseInt(basePriceMatch[1].replace(/\./g, ''), 10);
-            let multiplier = 1;
-            const duration = formData.duration || '1 Bulan';
-            if (duration === '2 Bulan') multiplier = 2;
-            else if (duration === '3 Bulan') multiplier = 3;
-            else if (duration === '6 Bulan') multiplier = 6;
-            else if (duration === '1 Tahun') multiplier = 12;
-            
-            price = basePrice * multiplier;
-          }
+        // For premium apps
+        if (!['PPOB & Tagihan', 'Top Up & Voucher', 'E-Wallet & Keuangan'].includes(product.category)) {
+           const duration = formData.duration;
+           if (duration) {
+             switch (product.id) {
+               case 'netflix':
+                 if (duration === 'Netflix Private (1 Akun)') price = 120000;
+                 else if (duration === 'Netflix Sharing (1 Profile)') price = 40000;
+                 break;
+               case 'canva':
+                 if (duration === 'Canva Edu 1 Tahun') price = 25000;
+                 break;
+               case 'viu':
+                 if (duration === 'Viu 12 Bulan') price = 15000;
+                 break;
+               case 'spotify':
+                 if (duration === 'Spotify Family Plan') price = 20000;
+                 break;
+               case 'youtube':
+                 if (duration === '1 Bulan') price = 10000;
+                 else if (duration === '3 Bulan') price = 25000;
+                 break;
+               default:
+                 // Fallback for other premium apps using multiplier logic
+                 if (product.priceStart) {
+                   const basePriceMatch = product.priceStart.match(/Rp\s?([\d.]+)/);
+                   if (basePriceMatch) {
+                     const basePrice = parseInt(basePriceMatch[1].replace(/\./g, ''), 10);
+                     let multiplier = 1;
+                     if (duration === '2 Bulan') multiplier = 2;
+                     else if (duration === '3 Bulan') multiplier = 3;
+                     else if (duration === '6 Bulan') multiplier = 6;
+                     else if (duration === '1 Tahun') multiplier = 12;
+                     price = basePrice * multiplier;
+                   }
+                 }
+                 break;
+             }
+           }
         }
         break;
     }
