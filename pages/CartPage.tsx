@@ -8,8 +8,20 @@ import { config } from '../siteConfig';
 
 export const CartPage: React.FC = () => {
   const { items, removeFromCart, clearCart, totalItems } = useCart();
-  const [userName, setUserName] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('QRIS');
+  const [userName, setUserName] = useState(() => {
+    return localStorage.getItem('mka_store_buyer_name') || '';
+  });
+  const [paymentMethod, setPaymentMethod] = useState(() => {
+    return localStorage.getItem('mka_store_payment_method') || 'QRIS';
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('mka_store_buyer_name', userName);
+  }, [userName]);
+
+  React.useEffect(() => {
+    localStorage.setItem('mka_store_payment_method', paymentMethod);
+  }, [paymentMethod]);
 
   const calculateEstimatedPrice = (item: any) => {
     let price = 0;
